@@ -1,0 +1,37 @@
+# Herramientas locales del entorno de desarrollo
+.tools/
+.tmp/
+
+# Variables sensibles
+.env
+backend/.env
+frontend/.env
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+venv/
+*.egg-info/
+
+# Base de datos y cobertura locales
+*.db
+*.sqlite
+*.sqlite3
+.coverage
+htmlcov/
+
+# Frontend
+node_modules/
+frontend/dist/
+frontend/coverage/
+
+# Editores y sistema operativo
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+

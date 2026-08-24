@@ -1,0 +1,28 @@
+# Registro de uso de Inteligencia Artificial
+
+Herramienta principal: OpenAI Codex. Este registro resume interacciones que influyeron materialmente en arquitectura, seguridad o modelo de datos.
+
+## AI-001 — Comprensión del enunciado y selección del proceso
+
+**Prompt resumido:** leer íntegramente el PDF de la prueba, distinguir requisitos obligatorios, revisar los datasets y comenzar con la opción 2 de notas de crédito.
+
+**Sugerencias aceptadas:**
+
+- Elegir notas de crédito por su relación directa con roles, departamentos y trazabilidad.
+- Diseñar autorización combinando rol y alcance departamental.
+- Tratar el cambio de estado y el evento de auditoría como una sola transacción.
+- Mantener Git y este registro desde el comienzo.
+
+**Sugerencias modificadas:**
+
+- Se propuso inicialmente PostgreSQL. Debido a que el entorno no tiene Docker ni servidor PostgreSQL, se inicia con SQLite, que está aceptado por el PDF, manteniendo portabilidad mediante SQLAlchemy y migraciones.
+
+**Sugerencias rechazadas:**
+
+- No se aceptó copiar literalmente el modelo del dataset que omite al actor individual. Esa omisión contradice los requisitos principales de no autoaprobación y auditoría de quién ejecutó la acción.
+- No se aceptó almacenar tokens de autenticación en `localStorage`; se diseñó una sesión opaca revocable con cookie `HttpOnly` y protección CSRF.
+
+## Ejemplo obligatorio de error o mala práctica detectada
+
+Pendiente de documentar cuando aparezca un caso concreto durante la implementación. No se inventará retrospectivamente un error para completar este apartado.
+
