@@ -150,6 +150,13 @@ class CreditNoteListRead(BaseModel):
     offset: int
 
 
+class CreditNoteSummaryRead(BaseModel):
+    total: int
+    pending: int
+    approved: int
+    rejected: int
+
+
 class CreditNoteCatalogRead(BaseModel):
     stores: list[CatalogItemRead]
     companies: list[CatalogItemRead]

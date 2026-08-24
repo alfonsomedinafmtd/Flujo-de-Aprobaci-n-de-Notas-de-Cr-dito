@@ -12,12 +12,14 @@ from app.schemas import (
     CreditNoteDecision,
     CreditNoteListRead,
     CreditNoteRead,
+    CreditNoteSummaryRead,
 )
 from app.services.credit_notes import (
     create_credit_note,
     decide_credit_note,
     get_credit_note,
     list_credit_notes,
+    summarize_credit_notes,
 )
 
 
@@ -60,6 +62,17 @@ def list_notes(
 @router.post("", response_model=CreditNoteRead, status_code=status.HTTP_201_CREATED)
 def create_note(payload: CreditNoteCreate, context: CsrfAuth, db: DbSession) -> CreditNoteRead:
     return present_credit_note(create_credit_note(db, context.user, payload))
+
+
+@router.get("/summary", response_model=CreditNoteSummaryRead)
+def note_summary(db: DbSession, user: CurrentUser) -> CreditNoteSummaryRead:
+    summary = summarize_credit_notes(db, user)
+    return CreditNoteSummaryRead(
+        total=sum(summary.values()),
+        pending=summary[CreditNoteStatus.PENDING],
+        approved=summary[CreditNoteStatus.APPROVED],
+        rejected=summary[CreditNoteStatus.REJECTED],
+    )
 
 
 @router.get("/{note_id}", response_model=CreditNoteRead)

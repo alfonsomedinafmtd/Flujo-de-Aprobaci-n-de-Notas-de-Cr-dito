@@ -94,8 +94,14 @@ export interface CreditNoteList {
   offset: number
 }
 
+export interface CreditNoteSummary {
+  total: number
+  pending: number
+  approved: number
+  rejected: number
+}
+
 export interface CreditNoteCatalog {
   stores: CatalogItem[]
   companies: CatalogItem[]
 }
-

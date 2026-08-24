@@ -59,6 +59,21 @@ def list_credit_notes(
     return list(db.scalars(statement).all()), db.scalar(count_statement) or 0
 
 
+def summarize_credit_notes(
+    db: Session,
+    user: UserAccount,
+) -> dict[CreditNoteStatus, int]:
+    statement = (
+        select(CreditNote.status, func.count(CreditNote.id))
+        .where(*_scope_conditions(user))
+        .group_by(CreditNote.status)
+    )
+    summary = {note_status: 0 for note_status in CreditNoteStatus}
+    for note_status, count in db.execute(statement):
+        summary[note_status] = count
+    return summary
+
+
 def get_credit_note(db: Session, user: UserAccount, note_id: int) -> CreditNote:
     statement = (
         select(CreditNote)

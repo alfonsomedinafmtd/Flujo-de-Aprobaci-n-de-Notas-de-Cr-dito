@@ -1,10 +1,27 @@
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 
+import { ApiError, apiRequest } from '../api'
 import { useAuth } from '../auth/AuthContext'
+import { ErrorMessage, Loading } from '../components/Feedback'
+import type { CreditNoteSummary } from '../types'
 import { canCreateCreditNote, canDecideCreditNote, roleLabel } from '../utils/permissions'
 
 export function DashboardPage() {
   const { user } = useAuth()
+  const [summary, setSummary] = useState<CreditNoteSummary | null>(null)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState('')
+
+  useEffect(() => {
+    let active = true
+    apiRequest<CreditNoteSummary>('/credit-notes/summary')
+      .then((data) => active && setSummary(data))
+      .catch((caught) => active && setError(caught instanceof ApiError ? caught.message : 'No fue posible cargar el resumen.'))
+      .finally(() => active && setLoading(false))
+    return () => { active = false }
+  }, [])
+
   if (!user) return null
 
   return (
@@ -17,6 +34,23 @@ export function DashboardPage() {
         </div>
         <span className="scope-pill">Alcance: {user.role === 'ADMIN' ? 'Global' : user.department_name}</span>
       </header>
+
+      <section className="summary-section" aria-labelledby="summary-title">
+        <div className="section-heading">
+          <span className="eyebrow">Notas dentro de tu alcance</span>
+          <h2 id="summary-title">Estado del proceso</h2>
+        </div>
+        {loading && <Loading label="Calculando resumen…" />}
+        {error && <ErrorMessage message={error} />}
+        {summary && (
+          <div className="metric-grid">
+            <article className="metric-card"><span>Total</span><strong>{summary.total}</strong></article>
+            <article className="metric-card metric-pending"><span>Pendientes</span><strong>{summary.pending}</strong></article>
+            <article className="metric-card metric-approved"><span>Aprobadas</span><strong>{summary.approved}</strong></article>
+            <article className="metric-card metric-rejected"><span>Rechazadas</span><strong>{summary.rejected}</strong></article>
+          </div>
+        )}
+      </section>
 
       <section className="module-grid" aria-label="Módulos disponibles">
         <Link className="module-card" to="/organization">
@@ -49,4 +83,3 @@ export function DashboardPage() {
     </div>
   )
 }
-

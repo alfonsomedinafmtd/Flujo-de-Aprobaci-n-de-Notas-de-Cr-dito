@@ -50,6 +50,16 @@ button, a { -webkit-tap-highlight-color: transparent; }
 .eyebrow { color: var(--teal); font-size: 12px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
 .hero-header .eyebrow, .brand-light .eyebrow { color: #8bd7ce; }
 .scope-pill { padding: 9px 13px; border: 1px solid rgba(255,255,255,.24); border-radius: 999px; color: #d9e8e9; font-size: 13px; }
+.summary-section { margin-bottom: 26px; }
+.summary-section .section-heading h2 { margin-bottom: 16px; }
+.metric-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+.metric-card { padding: 18px 20px; border: 1px solid var(--line); border-top: 3px solid var(--navy); border-radius: 12px; background: white; }
+.metric-card span, .metric-card strong { display: block; }
+.metric-card span { color: var(--muted); font-size: 13px; }
+.metric-card strong { margin-top: 4px; font-size: 28px; }
+.metric-pending { border-top-color: #c99420; }
+.metric-approved { border-top-color: #2a9273; }
+.metric-rejected { border-top-color: var(--danger); }
 
 .module-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
 .module-card { min-height: 255px; padding: 25px; display: flex; flex-direction: column; border: 1px solid var(--line); border-radius: 16px; background: var(--surface); text-decoration: none; transition: transform .18s ease, box-shadow .18s ease; }
@@ -149,6 +159,7 @@ textarea { resize: vertical; }
   .user-panel { margin: 0; grid-template-columns: 38px 1fr auto; align-items: center; }
   .text-button { grid-column: auto; }
   .module-grid { grid-template-columns: 1fr; }
+  .metric-grid { grid-template-columns: repeat(2, 1fr); }
   .module-card { min-height: 210px; }
   .detail-grid { grid-template-columns: repeat(2, 1fr); }
 }
@@ -159,6 +170,7 @@ textarea { resize: vertical; }
   .position-grid, .form-row, .decision-card { grid-template-columns: 1fr; }
   .decision-card .form-actions { grid-column: auto; }
   .detail-grid { grid-template-columns: 1fr; }
+  .metric-grid { grid-template-columns: 1fr; }
   .login-page { grid-template-columns: 1fr; }
   .login-intro { min-height: 46vh; padding: 32px 24px; }
   .login-intro h1 { font-size: 42px; }

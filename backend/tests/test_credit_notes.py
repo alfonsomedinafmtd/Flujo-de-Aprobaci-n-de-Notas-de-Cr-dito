@@ -224,3 +224,37 @@ def test_list_filters_by_status_and_preserves_pagination_metadata(test_context) 
 
     invalid = client.get("/api/credit-notes?status=UNKNOWN")
     assert invalid.status_code == 422
+
+
+def test_summary_counts_states_within_authenticated_scope(test_context) -> None:
+    client, _ = test_context
+    collaborator_csrf = login(client, "collab.a")
+    approved_id = create_note(client, collaborator_csrf).json()["id"]
+    create_note(client, collaborator_csrf)
+
+    head_csrf = login(client, "head.a")
+    approval = client.post(
+        f"/api/credit-notes/{approved_id}/approve",
+        headers={"X-CSRF-Token": head_csrf},
+        json={"expected_version": 1},
+    )
+    assert approval.status_code == 200
+
+    own_summary = client.get("/api/credit-notes/summary")
+    assert own_summary.status_code == 200
+    assert own_summary.json() == {
+        "total": 2,
+        "pending": 1,
+        "approved": 1,
+        "rejected": 0,
+    }
+
+    login(client, "head.b")
+    foreign_summary = client.get("/api/credit-notes/summary")
+    assert foreign_summary.status_code == 200
+    assert foreign_summary.json()["total"] == 0
+
+    login(client, "admin")
+    global_summary = client.get("/api/credit-notes/summary")
+    assert global_summary.status_code == 200
+    assert global_summary.json()["total"] == 2
