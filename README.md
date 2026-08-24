@@ -74,7 +74,7 @@ Requisitos: Node.js 24 LTS o una versión compatible con Vite 8.
 ```powershell
 Set-Location frontend
 Copy-Item .env.example .env
-npm install
+npm ci
 npm run dev
 ```
 
@@ -113,4 +113,4 @@ Con la API iniciada, el flujo completo también puede demostrarse desde PowerShe
 
 La solución incluye autenticación por sesión, protección CSRF, consultas de la estructura organizacional, migraciones, seed, el flujo completo de notas de crédito y una interfaz React adaptada a los permisos de cada rol.
 
-Las pruebas automatizadas del backend cubren autenticación, aislamiento por departamento, segregación de funciones, transiciones de estado, auditoría y configuración segura. El frontend incluye una prueba de las reglas de visibilidad por rol y scripts para validar tipos, pruebas y build.
+Las 26 pruebas automatizadas del backend cubren autenticación, aislamiento por departamento, segregación de funciones, transiciones de estado, auditoría, validaciones y configuración segura. El frontend superó typecheck, 2 pruebas Vitest y el build de producción; la auditoría npm reportó cero vulnerabilidades.

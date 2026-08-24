@@ -29,16 +29,17 @@ Comando de comprobación:
 
 ## Frontend
 
-- [ ] Acceso autorizado a `registry.npmjs.org` o registro corporativo equivalente.
-- [ ] `npm install` finaliza correctamente.
-- [ ] `frontend/package-lock.json` generado y versionado.
-- [ ] `npm run typecheck` sin errores.
-- [ ] `npm test` sin errores.
-- [ ] `npm run build` genera `frontend/dist`.
+- [x] Acceso autorizado a `registry.npmjs.org` o registro corporativo equivalente.
+- [x] `npm install` finaliza correctamente.
+- [x] `frontend/package-lock.json` generado y versionado.
+- [x] `npm run typecheck` sin errores.
+- [x] `npm test` sin errores.
+- [x] `npm run build` genera `frontend/dist`.
+- [x] `npm audit` sin vulnerabilidades conocidas.
 - [ ] Recorrido manual en navegador con Colaborador, Jefe y Administrador.
 - [ ] Diseño revisado en escritorio y vista móvil.
 
-Cuando npm esté disponible, ejecutar desde la raíz:
+Verificación integral ejecutada desde la raíz:
 
 ```powershell
 .\scripts\verify.ps1
@@ -51,8 +52,8 @@ Cuando npm esté disponible, ejecutar desde la raíz:
 - [x] Contraseñas almacenadas mediante hash y sesiones almacenadas por hash.
 - [x] Cookies `HttpOnly`, CSRF y revocación de sesión implementados.
 - [x] Decisiones técnicas, permisos, trazabilidad y uso de IA documentados.
-- [ ] Revisar nuevamente `git status` antes de entregar.
-- [ ] Confirmar que ningún secreto nuevo fue agregado durante la validación final.
+- [x] Revisar nuevamente `git status` antes de entregar.
+- [x] Confirmar que ningún secreto nuevo fue agregado durante la validación final.
 
 ## Git y publicación
 

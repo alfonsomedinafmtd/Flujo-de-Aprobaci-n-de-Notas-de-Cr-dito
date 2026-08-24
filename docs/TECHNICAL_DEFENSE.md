@@ -196,7 +196,7 @@ El backend tiene 26 pruebas aprobadas. Cubren login y atributos de cookie, error
 
 ### ¿Qué falta verificar?
 
-El frontend contiene una prueba de permisos y scripts de `typecheck`, pruebas y build, pero su ejecución final está pendiente porque la política de red responde `403` al registro oficial de npm. No se desactivó TLS ni se usaron mirrors para eludir el control. Cuando se habilite el acceso, `scripts/verify.ps1` ejecutará la verificación completa.
+El frontend superó `typecheck`, 2 pruebas Vitest y el build de producción con Vite. El lockfile quedó generado y `npm audit` reportó cero vulnerabilidades. El verificador integral ejecuta estas comprobaciones después de las 26 pruebas backend y `alembic check`.
 
 ### ¿Qué pruebas añadirías después?
 
@@ -207,7 +207,7 @@ Pruebas end-to-end en navegador para el recorrido de los tres roles, pruebas con
 ### ¿Cuáles son las principales limitaciones actuales?
 
 - SQLite es apropiado para evaluación local, no para concurrencia de producción.
-- Falta ejecutar el pipeline frontend cuando npm sea accesible y versionar el `package-lock.json` resultante.
+- Falta ejecutar el recorrido end-to-end manual en navegador para los tres roles y revisar visualmente la vista móvil.
 - No hay MFA, recuperación de contraseña, rate limiting ni bloqueo temporal.
 - No se conserva todavía el historial de cambios de cargo o departamento.
 - La auditoría es inmutable desde la API, no frente a un administrador de la base.

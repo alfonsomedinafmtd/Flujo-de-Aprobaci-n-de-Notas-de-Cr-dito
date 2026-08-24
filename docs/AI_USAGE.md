@@ -53,3 +53,7 @@ El error no se aceptó por inspección visual: se ejecutó una importación real
 - No se trató un parser sintáctico de TypeScript como sustituto de `typecheck`, Vitest o el build real.
 - No se creó manualmente un `package-lock.json` sin resolver dependencias.
 - No se desactivaron TLS, proxy, antivirus ni políticas corporativas, y no se usaron registros alternativos para eludir el `403` de npm.
+
+**Resolución posterior del bloqueo externo:**
+
+Una vez que el acceso al registro oficial fue autorizado, `npm ping` respondió correctamente y `npm install` generó el lockfile real. Se ejecutaron `typecheck`, Vitest, el build de producción y `npm audit`; todas las validaciones finalizaron correctamente y la auditoría reportó cero vulnerabilidades.

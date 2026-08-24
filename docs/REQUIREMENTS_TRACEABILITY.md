@@ -29,11 +29,11 @@ python -m alembic check
 python -m pytest -p no:cacheprovider
 ```
 
-Frontend, una vez que el entorno permita acceder al registro oficial de npm:
+Frontend:
 
 ```powershell
 Set-Location frontend
-npm install
+npm ci
 npm run typecheck
 npm test
 npm run build
