@@ -170,6 +170,27 @@ def test_credit_note_creation_requires_csrf(test_context) -> None:
         assert db.scalar(select(func.count(CreditNote.id))) == 0
 
 
+def test_credit_note_creation_rejects_blank_normalized_reason(test_context) -> None:
+    client, session_factory = test_context
+    csrf_token = login(client, "collab.a")
+
+    response = client.post(
+        "/api/credit-notes",
+        headers={"X-CSRF-Token": csrf_token},
+        json={
+            "amount": "1250.50",
+            "currency": "USD",
+            "reason": "     ",
+            "store_id": 1,
+            "company_id": 1,
+        },
+    )
+
+    assert response.status_code == 422
+    with session_factory() as db:
+        assert db.scalar(select(func.count(CreditNote.id))) == 0
+
+
 def test_stale_version_does_not_change_state_or_append_audit_event(test_context) -> None:
     client, session_factory = test_context
     collaborator_csrf = login(client, "collab.a")

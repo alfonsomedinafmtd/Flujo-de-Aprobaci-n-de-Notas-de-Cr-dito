@@ -1,3 +1,8 @@
+from datetime import timedelta
+
+from sqlalchemy import select
+
+from app.models import AuthSession, utc_now
 from tests.conftest import TEST_PASSWORD, login
 
 
@@ -53,6 +58,21 @@ def test_logout_requires_csrf_and_revokes_session(test_context) -> None:
     logout = client.post("/api/auth/logout", headers={"X-CSRF-Token": csrf_token})
     assert logout.status_code == 204
     assert client.get("/api/auth/me").status_code == 401
+
+
+def test_expired_session_is_rejected_by_current_user_endpoint(test_context) -> None:
+    client, test_session = test_context
+    login(client, "collab.a")
+
+    with test_session() as db:
+        auth_session = db.scalar(select(AuthSession))
+        assert auth_session is not None
+        auth_session.expires_at = utc_now() - timedelta(seconds=1)
+        db.commit()
+
+    response = client.get("/api/auth/me")
+
+    assert response.status_code == 401
 
 
 def test_authenticated_session_can_rotate_csrf_after_page_reload(test_context) -> None:

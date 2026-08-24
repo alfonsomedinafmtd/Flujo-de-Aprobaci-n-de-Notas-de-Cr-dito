@@ -23,7 +23,7 @@ function Invoke-CheckedCommand {
     try {
         & $FilePath @Arguments
         if ($LASTEXITCODE -ne 0) {
-            throw "$Label falló con código $LASTEXITCODE."
+            throw "$Label fallo con codigo $LASTEXITCODE."
         }
     }
     finally {
@@ -32,7 +32,7 @@ function Invoke-CheckedCommand {
 }
 
 if (-not (Test-Path -LiteralPath $pythonExecutable -PathType Leaf)) {
-    throw "No se encontró el entorno Python en $pythonExecutable. Créalo e instala backend\requirements-dev.txt."
+    throw "No se encontro el entorno Python en $pythonExecutable. Crealo e instala backend\requirements-dev.txt."
 }
 
 Invoke-CheckedCommand `
@@ -42,13 +42,13 @@ Invoke-CheckedCommand `
     -WorkingDirectory $backendDirectory
 
 Invoke-CheckedCommand `
-    -Label "Sincronización de modelos y migraciones" `
+    -Label "Sincronizacion de modelos y migraciones" `
     -FilePath $pythonExecutable `
     -Arguments @("-m", "alembic", "check") `
     -WorkingDirectory $backendDirectory
 
 if ($BackendOnly) {
-    Write-Host "`nVerificación backend completada. El frontend se omitió mediante -BackendOnly."
+    Write-Host "`nVerificacion backend completada. El frontend se omitio mediante -BackendOnly."
     exit 0
 }
 
@@ -63,11 +63,11 @@ if (-not (Test-Path -LiteralPath $packageLock -PathType Leaf)) {
 
 $npmCommand = Get-Command npm.cmd -ErrorAction SilentlyContinue
 if (-not $npmCommand) {
-    throw "No se encontró npm.cmd en PATH. Instala Node.js LTS y abre una nueva terminal."
+    throw "No se encontro npm.cmd en PATH. Instala Node.js LTS y abre una nueva terminal."
 }
 
 Invoke-CheckedCommand `
-    -Label "Validación de tipos del frontend" `
+    -Label "Validacion de tipos del frontend" `
     -FilePath $npmCommand.Source `
     -Arguments @("run", "typecheck") `
     -WorkingDirectory $frontendDirectory
@@ -79,9 +79,9 @@ Invoke-CheckedCommand `
     -WorkingDirectory $frontendDirectory
 
 Invoke-CheckedCommand `
-    -Label "Build de producción del frontend" `
+    -Label "Build de produccion del frontend" `
     -FilePath $npmCommand.Source `
     -Arguments @("run", "build") `
     -WorkingDirectory $frontendDirectory
 
-Write-Host "`nVerificación completa finalizada correctamente."
+Write-Host "`nVerificacion completa finalizada correctamente."

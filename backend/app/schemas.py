@@ -12,10 +12,12 @@ class LoginRequest(BaseModel):
     username: str = Field(min_length=3, max_length=80)
     password: SecretStr = Field(min_length=8, max_length=128)
 
-    @field_validator("username")
+    @field_validator("username", mode="before")
     @classmethod
-    def normalize_username(cls, value: str) -> str:
-        return value.strip().lower()
+    def normalize_username(cls, value: object) -> object:
+        if isinstance(value, str):
+            return value.strip().lower()
+        return value
 
 
 class CurrentUserRead(BaseModel):
@@ -93,10 +95,12 @@ class CreditNoteCreate(BaseModel):
     store_id: int = Field(gt=0)
     company_id: int = Field(gt=0)
 
-    @field_validator("reason")
+    @field_validator("reason", mode="before")
     @classmethod
-    def strip_reason(cls, value: str) -> str:
-        return value.strip()
+    def strip_reason(cls, value: object) -> object:
+        if isinstance(value, str):
+            return value.strip()
+        return value
 
 
 class CreditNoteDecision(BaseModel):
