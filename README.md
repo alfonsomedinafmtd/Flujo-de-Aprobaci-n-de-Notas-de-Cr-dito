@@ -17,7 +17,7 @@ Aplicación web para consultar la estructura organizacional de una VP de Finanza
 - Frontend: React con TypeScript y Vite.
 - Pruebas: pytest para reglas de negocio y autorización; Vitest para componentes críticos.
 
-Las decisiones y sus motivos se mantienen en [docs/DECISIONS.md](docs/DECISIONS.md).
+Las decisiones y sus motivos se mantienen en [docs/DECISIONS.md](docs/DECISIONS.md). La cobertura del enunciado puede revisarse en [docs/REQUIREMENTS_TRACEABILITY.md](docs/REQUIREMENTS_TRACEABILITY.md).
 
 ## Ejecutar el backend en Windows
 

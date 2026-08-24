@@ -1,6 +1,7 @@
-from sqlalchemy import select
+from sqlalchemy import func, select
 
-from app.models import CreditNote, UserAccount
+from app.enums import CreditNoteStatus
+from app.models import CreditNote, CreditNoteEvent, UserAccount
 from tests.conftest import login
 
 
@@ -148,3 +149,48 @@ def test_autoapproval_is_rejected_even_for_inconsistent_imported_data(test_conte
     assert response.status_code == 403
     assert response.json()["detail"] == "No se permite la autoaprobación"
 
+
+def test_credit_note_creation_requires_csrf(test_context) -> None:
+    client, session_factory = test_context
+    login(client, "collab.a")
+
+    response = client.post(
+        "/api/credit-notes",
+        json={
+            "amount": "1250.50",
+            "currency": "USD",
+            "reason": "Solicitud sin token CSRF",
+            "store_id": 1,
+            "company_id": 1,
+        },
+    )
+
+    assert response.status_code == 403
+    with session_factory() as db:
+        assert db.scalar(select(func.count(CreditNote.id))) == 0
+
+
+def test_stale_version_does_not_change_state_or_append_audit_event(test_context) -> None:
+    client, session_factory = test_context
+    collaborator_csrf = login(client, "collab.a")
+    note_id = create_note(client, collaborator_csrf).json()["id"]
+
+    head_csrf = login(client, "head.a")
+    response = client.post(
+        f"/api/credit-notes/{note_id}/approve",
+        headers={"X-CSRF-Token": head_csrf},
+        json={"expected_version": 2, "comment": "Vista desactualizada"},
+    )
+
+    assert response.status_code == 409
+    with session_factory() as db:
+        note = db.get(CreditNote, note_id)
+        event_count = db.scalar(
+            select(func.count(CreditNoteEvent.id)).where(
+                CreditNoteEvent.credit_note_id == note_id,
+            )
+        )
+        assert note is not None
+        assert note.status is CreditNoteStatus.PENDING
+        assert note.version == 1
+        assert event_count == 1
