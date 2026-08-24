@@ -17,7 +17,33 @@ Aplicación web para consultar la estructura organizacional de una VP de Finanza
 - Frontend: React con TypeScript y Vite.
 - Pruebas: pytest para reglas de negocio y autorización; Vitest para componentes críticos.
 
-La instalación y los comandos de ejecución se completarán conforme avance el primer corte funcional. Las decisiones y sus motivos se mantienen en [docs/DECISIONS.md](docs/DECISIONS.md).
+Las decisiones y sus motivos se mantienen en [docs/DECISIONS.md](docs/DECISIONS.md).
+
+## Ejecutar el backend en Windows
+
+Requisitos: Python 3.12 o superior.
+
+```powershell
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+python -m pip install -r backend\requirements-dev.txt
+Copy-Item .env.example backend\.env
+Set-Location backend
+alembic upgrade head
+python -m app.seed
+uvicorn app.main:app --reload
+```
+
+El seed crea 4 departamentos, 33 colaboradores ficticios y adapta las 25 notas de crédito proporcionadas. Las contraseñas demo se generan aleatoriamente y se muestran una sola vez al crear una base vacía; no se guardan en el repositorio.
+
+La API queda disponible en `http://localhost:8000` y su documentación OpenAPI en `http://localhost:8000/docs`.
+
+Para ejecutar las pruebas:
+
+```powershell
+Set-Location backend
+python -m pytest
+```
 
 ## Seguridad prevista
 
@@ -29,5 +55,4 @@ La instalación y los comandos de ejecución se completarán conforme avance el 
 
 ## Estado
 
-Proyecto en construcción. La primera fase define arquitectura, permisos, modelo relacional y trazabilidad del uso de AI antes de implementar los endpoints.
-
+El backend ya incluye autenticación por sesión, protección CSRF, organización, migraciones, seed y el flujo completo de notas de crédito. El frontend React continúa en construcción.

@@ -1,0 +1,9 @@
+[project]
+name = "finance-portal-api"
+version = "0.1.0"
+description = "API del portal interno de Finanzas"
+requires-python = ">=3.12"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra -q -p no:cacheprovider"

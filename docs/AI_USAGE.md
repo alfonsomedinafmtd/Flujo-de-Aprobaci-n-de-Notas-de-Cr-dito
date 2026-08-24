@@ -24,5 +24,6 @@ Herramienta principal: OpenAI Codex. Este registro resume interacciones que infl
 
 ## Ejemplo obligatorio de error o mala práctica detectada
 
-Pendiente de documentar cuando aparezca un caso concreto durante la implementación. No se inventará retrospectivamente un error para completar este apartado.
+Durante el primer modelo SQLAlchemy, la AI utilizó `mapped_column` para construir la tabla de asociación `position_functions`. Ese constructor está diseñado para atributos de clases declarativas; una instancia directa de `Table` necesita objetos `Column`.
 
+El error no se aceptó por inspección visual: se ejecutó una importación real del módulo y SQLAlchemy produjo `ArgumentError: 'SchemaItem' object ... expected`. Se reemplazaron las dos columnas de asociación por `Column` y se repitió la validación. Este caso reforzó la decisión de importar los modelos y crear el esquema en pruebas, en lugar de asumir que código sintácticamente válido representa un modelo ejecutable.
