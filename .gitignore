@@ -1,6 +1,7 @@
 # Herramientas locales del entorno de desarrollo
 .tools/
 .tmp/
+.devcontainer/.state/
 
 # Variables sensibles
 .env
@@ -34,4 +35,3 @@ frontend/coverage/
 .vscode/
 .DS_Store
 Thumbs.db
-

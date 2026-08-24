@@ -80,6 +80,27 @@ npm run dev
 
 La interfaz queda disponible en `http://localhost:5173`. La cookie de sesión se envía con `credentials: include`; el token CSRF se conserva únicamente en memoria y se rota al restaurar la sesión.
 
+## Ejecutar en GitHub Codespaces
+
+[Crear y abrir el Codespace](https://codespaces.new/alfonsomedinafmtd/Flujo-de-Aprobaci-n-de-Notas-de-Cr-dito?quickstart=1)
+
+El repositorio incluye una configuración reproducible en `.devcontainer`. Al crear
+un Codespace desde la rama `main` se instalan Python, Node.js y todas las
+dependencias; luego se crea una base SQLite de demostración y se inician FastAPI
+y Vite automáticamente.
+
+Codespaces abre el portal reenviado por el puerto `5173`. Las credenciales
+aleatorias se muestran en el registro de creación y permanecen solo dentro del
+Codespace en `.devcontainer/.state/demo-credentials.txt`; este archivo está
+ignorado por Git. La documentación técnica queda disponible en el puerto `8000`.
+Los puertos son privados de manera predeterminada y no deben cambiarse a públicos.
+
+Si el contenedor ya está creado y se necesita arrancar nuevamente los servicios:
+
+```bash
+bash .devcontainer/start.sh
+```
+
 Para validar tipos, pruebas y build de producción:
 
 ```powershell
