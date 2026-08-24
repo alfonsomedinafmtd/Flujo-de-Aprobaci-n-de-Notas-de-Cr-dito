@@ -71,8 +71,8 @@ export function CreditNoteDetailPage() {
           <div><span className="eyebrow">Segregación de funciones</span><h2>Registrar decisión</h2><p>La acción quedará asociada a tu usuario y no podrá editarse.</p></div>
           <label>Comentario<textarea rows={3} maxLength={1000} value={comment} onChange={(event) => setComment(event.target.value)} placeholder="Obligatorio para rechazar" /></label>
           <div className="form-actions">
-            <button className="button button-danger" disabled={submitting || !comment.trim()} type="button" onClick={() => void decide('reject')}>Rechazar</button>
-            <button className="button button-primary" disabled={submitting} type="button" onClick={() => void decide('approve')}>Aprobar</button>
+            <button className="button button-danger" disabled={submitting || !csrfToken || !comment.trim()} type="button" onClick={() => void decide('reject')}>Rechazar</button>
+            <button className="button button-primary" disabled={submitting || !csrfToken} type="button" onClick={() => void decide('approve')}>Aprobar</button>
           </div>
         </section>
       )}
@@ -95,4 +95,3 @@ export function CreditNoteDetailPage() {
     </div>
   )
 }
-

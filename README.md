@@ -66,7 +66,7 @@ npm test
 npm run build
 ```
 
-## Seguridad prevista
+## Seguridad implementada
 
 - El rol y el departamento se obtienen exclusivamente de la sesión autenticada.
 - Las contraseñas se almacenan con un algoritmo de derivación seguro, nunca en texto plano.
@@ -74,6 +74,8 @@ npm run build
 - Los secretos y la configuración local permanecen fuera del repositorio.
 - Las solicitudes y sus eventos de auditoría no admiten eliminación física.
 
-## Estado
+## Estado de la entrega
 
-El backend ya incluye autenticación por sesión, protección CSRF, organización, migraciones, seed y el flujo completo de notas de crédito. El frontend React continúa en construcción.
+La solución incluye autenticación por sesión, protección CSRF, consultas de la estructura organizacional, migraciones, seed, el flujo completo de notas de crédito y una interfaz React adaptada a los permisos de cada rol.
+
+Las pruebas automatizadas del backend cubren autenticación, aislamiento por departamento, segregación de funciones, transiciones de estado, auditoría y configuración segura. El frontend incluye una prueba de las reglas de visibilidad por rol y scripts para validar tipos, pruebas y build.

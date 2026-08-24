@@ -11,7 +11,6 @@ La API aplicará autorización tanto al endpoint como a la consulta. Conocer un 
 | Listar notas de crédito | Todas | Departamento propio | Solo las creadas por el usuario |
 | Ver historial | Cualquier nota | Notas del departamento propio | Solo notas propias |
 | Aprobar o rechazar | Cualquier departamento | Solo departamento propio | No |
-| Administrar estructura | Sí | No | No |
 
 ## Invariantes de backend
 
@@ -22,4 +21,3 @@ La API aplicará autorización tanto al endpoint como a la consulta. Conocer un 
 5. Una transición y su evento se confirman o revierten juntos.
 6. El historial es append-only y no tendrá endpoints de edición o eliminación.
 7. Las cantidades monetarias usan decimal de precisión fija, nunca punto flotante.
-
