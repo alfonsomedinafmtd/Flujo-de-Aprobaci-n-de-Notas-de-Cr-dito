@@ -45,6 +45,27 @@ Set-Location backend
 python -m pytest
 ```
 
+## Ejecutar el frontend
+
+Requisitos: Node.js 24 LTS o una versión compatible con Vite 8.
+
+```powershell
+Set-Location frontend
+Copy-Item .env.example .env
+npm install
+npm run dev
+```
+
+La interfaz queda disponible en `http://localhost:5173`. La cookie de sesión se envía con `credentials: include`; el token CSRF se conserva únicamente en memoria y se rota al restaurar la sesión.
+
+Para validar tipos, pruebas y build de producción:
+
+```powershell
+npm run typecheck
+npm test
+npm run build
+```
+
 ## Seguridad prevista
 
 - El rol y el departamento se obtienen exclusivamente de la sesión autenticada.

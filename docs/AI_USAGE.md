@@ -21,6 +21,7 @@ Herramienta principal: OpenAI Codex. Este registro resume interacciones que infl
 
 - No se aceptó copiar literalmente el modelo del dataset que omite al actor individual. Esa omisión contradice los requisitos principales de no autoaprobación y auditoría de quién ejecutó la acción.
 - No se aceptó almacenar tokens de autenticación en `localStorage`; se diseñó una sesión opaca revocable con cookie `HttpOnly` y protección CSRF.
+- No se desactivó la validación TLS cuando Node portátil no reconoció inicialmente la autoridad certificadora del entorno. Se reintentó usando el almacén confiable del sistema; el registro npm devolvió después una prohibición de política (`403`), por lo que no se intentaron mirrors ni rutas que eludieran ese control.
 
 ## Ejemplo obligatorio de error o mala práctica detectada
 

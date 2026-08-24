@@ -40,7 +40,7 @@ La aprobación concurrente se protegerá mediante una versión de registro y una
 
 Se prefiere una sesión aleatoria y revocable sobre almacenar un JWT en `localStorage`. El navegador recibirá una cookie `HttpOnly`, `SameSite=Lax` y `Secure` en producción. Las operaciones mutables requerirán un token CSRF entregado al cliente después del login.
 
-En la base solo se persistirá el hash del identificador de sesión. El cierre de sesión revocará la sesión inmediatamente.
+En la base solo se persistirá el hash del identificador de sesión. El cierre de sesión revocará la sesión inmediatamente. Al recargar la SPA, un endpoint autenticado rota el token CSRF; un sitio externo no puede leer su respuesta por la política CORS y la cookie `SameSite` no se envía en un POST cross-site.
 
 ## ADR-006: permisos y segregación de funciones
 
@@ -59,4 +59,3 @@ En la base solo se persistirá el hash del identificador de sesión. El cierre d
 - No se conservará todavía historial de cambios organizacionales de cargo o departamento.
 - No se implementará recuperación de contraseña ni segundo factor en el alcance inicial.
 - SQLite es adecuado para la evaluación local, no la recomendación final para concurrencia de producción.
-

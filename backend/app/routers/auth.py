@@ -9,7 +9,7 @@ from app.dependencies import Auth, CsrfAuth, DbSession
 from app.enums import EmployeeStatus
 from app.models import AuthSession, Employee, Position, UserAccount, utc_now
 from app.presenters import present_current_user
-from app.schemas import CurrentUserRead, LoginRequest, LoginResponse
+from app.schemas import CsrfResponse, CurrentUserRead, LoginRequest, LoginResponse
 from app.security import digest_token, generate_token, verify_password
 
 
@@ -70,6 +70,14 @@ def login(payload: LoginRequest, response: Response, db: DbSession) -> LoginResp
 @router.get("/me", response_model=CurrentUserRead)
 def me(context: Auth) -> CurrentUserRead:
     return present_current_user(context.user)
+
+
+@router.post("/csrf", response_model=CsrfResponse)
+def refresh_csrf(context: Auth, db: DbSession) -> CsrfResponse:
+    csrf_token = generate_token()
+    context.session.csrf_hash = digest_token(csrf_token)
+    db.commit()
+    return CsrfResponse(csrf_token=csrf_token)
 
 
 @router.post("/logout", status_code=status.HTTP_204_NO_CONTENT)

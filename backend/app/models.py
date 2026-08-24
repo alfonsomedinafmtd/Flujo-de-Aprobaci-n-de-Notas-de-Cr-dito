@@ -85,7 +85,7 @@ class Position(Base):
     department_id: Mapped[int] = mapped_column(ForeignKey("departments.id"), index=True)
     title: Mapped[str] = mapped_column(String(100))
     seniority: Mapped[Seniority] = mapped_column(
-        SqlEnum(Seniority, native_enum=False, create_constraint=True),
+        SqlEnum(Seniority, name="position_seniority", native_enum=False, create_constraint=True),
     )
     description: Mapped[str | None] = mapped_column(Text)
     active: Mapped[bool] = mapped_column(Boolean, default=True, nullable=False)
@@ -109,7 +109,7 @@ class Employee(Base):
     hire_date: Mapped[date] = mapped_column(Date)
     internal_email: Mapped[str] = mapped_column(String(160), unique=True, index=True)
     status: Mapped[EmployeeStatus] = mapped_column(
-        SqlEnum(EmployeeStatus, native_enum=False, create_constraint=True),
+        SqlEnum(EmployeeStatus, name="employee_status", native_enum=False, create_constraint=True),
         default=EmployeeStatus.ACTIVE,
     )
 
@@ -125,7 +125,7 @@ class UserAccount(Base):
     username: Mapped[str] = mapped_column(String(80), unique=True, index=True)
     password_hash: Mapped[str] = mapped_column(String(255))
     role: Mapped[UserRole] = mapped_column(
-        SqlEnum(UserRole, native_enum=False, create_constraint=True),
+        SqlEnum(UserRole, name="user_role", native_enum=False, create_constraint=True),
     )
     active: Mapped[bool] = mapped_column(Boolean, default=True, nullable=False)
     created_at: Mapped[datetime] = mapped_column(DateTime, default=utc_now, nullable=False)
@@ -183,7 +183,7 @@ class CreditNote(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
     amount: Mapped[Decimal] = mapped_column(Numeric(14, 2))
     currency: Mapped[Currency] = mapped_column(
-        SqlEnum(Currency, native_enum=False, create_constraint=True),
+        SqlEnum(Currency, name="credit_note_currency", native_enum=False, create_constraint=True),
     )
     reason: Mapped[str] = mapped_column(Text)
     requesting_department_id: Mapped[int] = mapped_column(ForeignKey("departments.id"), index=True)
@@ -191,7 +191,7 @@ class CreditNote(Base):
     store_id: Mapped[int] = mapped_column(ForeignKey("stores.id"), index=True)
     company_id: Mapped[int] = mapped_column(ForeignKey("companies.id"), index=True)
     status: Mapped[CreditNoteStatus] = mapped_column(
-        SqlEnum(CreditNoteStatus, native_enum=False, create_constraint=True),
+        SqlEnum(CreditNoteStatus, name="credit_note_status", native_enum=False, create_constraint=True),
         default=CreditNoteStatus.PENDING,
         index=True,
     )
@@ -222,13 +222,28 @@ class CreditNoteEvent(Base):
     credit_note_id: Mapped[int] = mapped_column(ForeignKey("credit_notes.id"), index=True)
     actor_user_id: Mapped[int] = mapped_column(ForeignKey("user_accounts.id"), index=True)
     action: Mapped[CreditNoteAction] = mapped_column(
-        SqlEnum(CreditNoteAction, native_enum=False, create_constraint=True),
+        SqlEnum(
+            CreditNoteAction,
+            name="credit_note_event_action",
+            native_enum=False,
+            create_constraint=True,
+        ),
     )
     previous_status: Mapped[CreditNoteStatus | None] = mapped_column(
-        SqlEnum(CreditNoteStatus, native_enum=False, create_constraint=True),
+        SqlEnum(
+            CreditNoteStatus,
+            name="credit_note_event_previous_status",
+            native_enum=False,
+            create_constraint=True,
+        ),
     )
     new_status: Mapped[CreditNoteStatus] = mapped_column(
-        SqlEnum(CreditNoteStatus, native_enum=False, create_constraint=True),
+        SqlEnum(
+            CreditNoteStatus,
+            name="credit_note_event_new_status",
+            native_enum=False,
+            create_constraint=True,
+        ),
     )
     comment: Mapped[str | None] = mapped_column(Text)
     occurred_at: Mapped[datetime] = mapped_column(DateTime, default=utc_now, nullable=False)

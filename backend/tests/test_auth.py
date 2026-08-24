@@ -47,3 +47,16 @@ def test_logout_requires_csrf_and_revokes_session(test_context) -> None:
     logout = client.post("/api/auth/logout", headers={"X-CSRF-Token": csrf_token})
     assert logout.status_code == 204
     assert client.get("/api/auth/me").status_code == 401
+
+
+def test_authenticated_session_can_rotate_csrf_after_page_reload(test_context) -> None:
+    client, _ = test_context
+    previous_csrf = login(client, "collab.a")
+
+    refreshed = client.post("/api/auth/csrf")
+
+    assert refreshed.status_code == 200
+    new_csrf = refreshed.json()["csrf_token"]
+    assert new_csrf != previous_csrf
+    assert client.post("/api/auth/logout", headers={"X-CSRF-Token": previous_csrf}).status_code == 403
+    assert client.post("/api/auth/logout", headers={"X-CSRF-Token": new_csrf}).status_code == 204

@@ -34,6 +34,10 @@ class LoginResponse(BaseModel):
     csrf_token: str
 
 
+class CsrfResponse(BaseModel):
+    csrf_token: str
+
+
 class DepartmentRead(BaseModel):
     id: int
     code: str

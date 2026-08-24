@@ -62,7 +62,7 @@ def upgrade() -> None:
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('department_id', sa.Integer(), nullable=False),
     sa.Column('title', sa.String(length=100), nullable=False),
-    sa.Column('seniority', sa.Enum('ASSISTANT', 'JUNIOR', 'SEMI_SENIOR', 'SENIOR', 'LEAD', name='seniority', native_enum=False, create_constraint=True), nullable=False),
+    sa.Column('seniority', sa.Enum('ASSISTANT', 'JUNIOR', 'SEMI_SENIOR', 'SENIOR', 'LEAD', name='position_seniority', native_enum=False, create_constraint=True), nullable=False),
     sa.Column('description', sa.Text(), nullable=True),
     sa.Column('active', sa.Boolean(), nullable=False),
     sa.ForeignKeyConstraint(['department_id'], ['departments.id'], name=op.f('fk_positions_department_id_departments')),
@@ -80,7 +80,7 @@ def upgrade() -> None:
     sa.Column('country', sa.String(length=80), nullable=False),
     sa.Column('hire_date', sa.Date(), nullable=False),
     sa.Column('internal_email', sa.String(length=160), nullable=False),
-    sa.Column('status', sa.Enum('ACTIVE', 'INACTIVE', name='employeestatus', native_enum=False, create_constraint=True), nullable=False),
+    sa.Column('status', sa.Enum('ACTIVE', 'INACTIVE', name='employee_status', native_enum=False, create_constraint=True), nullable=False),
     sa.ForeignKeyConstraint(['position_id'], ['positions.id'], name=op.f('fk_employees_position_id_positions')),
     sa.PrimaryKeyConstraint('id', name=op.f('pk_employees'))
     )
@@ -100,7 +100,7 @@ def upgrade() -> None:
     sa.Column('employee_id', sa.Integer(), nullable=False),
     sa.Column('username', sa.String(length=80), nullable=False),
     sa.Column('password_hash', sa.String(length=255), nullable=False),
-    sa.Column('role', sa.Enum('ADMIN', 'DEPARTMENT_HEAD', 'COLLABORATOR', name='userrole', native_enum=False, create_constraint=True), nullable=False),
+    sa.Column('role', sa.Enum('ADMIN', 'DEPARTMENT_HEAD', 'COLLABORATOR', name='user_role', native_enum=False, create_constraint=True), nullable=False),
     sa.Column('active', sa.Boolean(), nullable=False),
     sa.Column('created_at', sa.DateTime(), nullable=False),
     sa.ForeignKeyConstraint(['employee_id'], ['employees.id'], name=op.f('fk_user_accounts_employee_id_employees')),
@@ -129,13 +129,13 @@ def upgrade() -> None:
     op.create_table('credit_notes',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('amount', sa.Numeric(precision=14, scale=2), nullable=False),
-    sa.Column('currency', sa.Enum('USD', 'VES', name='currency', native_enum=False, create_constraint=True), nullable=False),
+    sa.Column('currency', sa.Enum('USD', 'VES', name='credit_note_currency', native_enum=False, create_constraint=True), nullable=False),
     sa.Column('reason', sa.Text(), nullable=False),
     sa.Column('requesting_department_id', sa.Integer(), nullable=False),
     sa.Column('created_by_user_id', sa.Integer(), nullable=False),
     sa.Column('store_id', sa.Integer(), nullable=False),
     sa.Column('company_id', sa.Integer(), nullable=False),
-    sa.Column('status', sa.Enum('PENDING', 'APPROVED', 'REJECTED', name='creditnotestatus', native_enum=False, create_constraint=True), nullable=False),
+    sa.Column('status', sa.Enum('PENDING', 'APPROVED', 'REJECTED', name='credit_note_status', native_enum=False, create_constraint=True), nullable=False),
     sa.Column('version', sa.Integer(), nullable=False),
     sa.Column('created_at', sa.DateTime(), nullable=False),
     sa.Column('updated_at', sa.DateTime(), nullable=False),
@@ -158,9 +158,9 @@ def upgrade() -> None:
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('credit_note_id', sa.Integer(), nullable=False),
     sa.Column('actor_user_id', sa.Integer(), nullable=False),
-    sa.Column('action', sa.Enum('CREATED', 'APPROVED', 'REJECTED', name='creditnoteaction', native_enum=False, create_constraint=True), nullable=False),
-    sa.Column('previous_status', sa.Enum('PENDING', 'APPROVED', 'REJECTED', name='creditnotestatus', native_enum=False, create_constraint=True), nullable=True),
-    sa.Column('new_status', sa.Enum('PENDING', 'APPROVED', 'REJECTED', name='creditnotestatus', native_enum=False, create_constraint=True), nullable=False),
+    sa.Column('action', sa.Enum('CREATED', 'APPROVED', 'REJECTED', name='credit_note_event_action', native_enum=False, create_constraint=True), nullable=False),
+    sa.Column('previous_status', sa.Enum('PENDING', 'APPROVED', 'REJECTED', name='credit_note_event_previous_status', native_enum=False, create_constraint=True), nullable=True),
+    sa.Column('new_status', sa.Enum('PENDING', 'APPROVED', 'REJECTED', name='credit_note_event_new_status', native_enum=False, create_constraint=True), nullable=False),
     sa.Column('comment', sa.Text(), nullable=True),
     sa.Column('occurred_at', sa.DateTime(), nullable=False),
     sa.ForeignKeyConstraint(['actor_user_id'], ['user_accounts.id'], name=op.f('fk_credit_note_events_actor_user_id_user_accounts')),
@@ -223,4 +223,3 @@ def downgrade() -> None:
 
     op.drop_table('business_functions')
     # ### end Alembic commands ###
-
