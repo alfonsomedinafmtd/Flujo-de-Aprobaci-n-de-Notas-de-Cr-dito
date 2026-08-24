@@ -61,6 +61,12 @@ También se puede ejecutar toda la verificación disponible del backend desde la
 .\scripts\verify.ps1 -BackendOnly
 ```
 
+Para revisar el estado de entrega sin modificar el repositorio:
+
+```powershell
+.\scripts\delivery-audit.ps1
+```
+
 ## Ejecutar el frontend
 
 Requisitos: Node.js 24 LTS o una versión compatible con Vite 8.
@@ -87,6 +93,12 @@ Cuando las dependencias estén instaladas, el verificador completo ejecuta backe
 ```powershell
 Set-Location ..
 .\scripts\verify.ps1
+```
+
+Con la API iniciada, el flujo completo también puede demostrarse desde PowerShell sin guardar credenciales:
+
+```powershell
+.\scripts\demo-api.ps1 -Decision approve -Comment "Soporte validado"
 ```
 
 ## Seguridad implementada

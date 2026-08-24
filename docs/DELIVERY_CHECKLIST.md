@@ -56,6 +56,12 @@ Cuando npm esté disponible, ejecutar desde la raíz:
 
 ## Git y publicación
 
+Ejecutar primero la auditoría de solo lectura:
+
+```powershell
+.\scripts\delivery-audit.ps1
+```
+
 - [ ] Sustituir la identidad temporal `Candidato <candidato@example.invalid>` por la identidad del candidato.
 - [ ] Definir si se corregirá la autoría de los commits existentes antes de publicar.
 - [ ] Crear el repositorio remoto solicitado por el evaluador.

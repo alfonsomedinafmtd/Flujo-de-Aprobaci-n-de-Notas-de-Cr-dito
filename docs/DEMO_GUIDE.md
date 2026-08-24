@@ -22,6 +22,22 @@ npm run dev
 
 Abrir `http://localhost:5173`. Las credenciales se muestran una sola vez cuando el seed crea una base vacía; conservarlas únicamente para la demostración local.
 
+## Demostración alternativa desde PowerShell
+
+Si la API está iniciada, el flujo puede ejecutarse sin guardar contraseñas en archivos ni en el historial de comandos. Desde la raíz del proyecto:
+
+```powershell
+.\scripts\demo-api.ps1 -Decision approve -Comment "Soporte validado"
+```
+
+Para demostrar un rechazo:
+
+```powershell
+.\scripts\demo-api.ps1 -Decision reject -Comment "Soporte documental insuficiente"
+```
+
+El script solicita de forma segura las credenciales de un colaborador y de un jefe del mismo departamento o administrador. Luego crea la solicitud, registra la decisión, muestra auditoría y resumen, y revoca ambas sesiones. Este recorrido modifica únicamente la base local de demostración.
+
 ## Recorrido sugerido
 
 ### 1. Colaborador

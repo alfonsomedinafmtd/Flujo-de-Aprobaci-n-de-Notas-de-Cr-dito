@@ -39,6 +39,7 @@ El error no se aceptó por inspección visual: se ejecutó una importación real
 - Incorporar un resumen por estado para el dashboard con visibilidad por usuario, departamento o alcance global.
 - Probar el seed desde una base vacía, sus cantidades, eventos e idempotencia.
 - Centralizar pruebas y comprobación de migraciones en `scripts/verify.ps1`.
+- Automatizar la auditoría de entrega y una demostración de API sin persistir credenciales.
 - Añadir pruebas de sesión expirada, CSRF, versión obsoleta y ausencia de efectos ante operaciones rechazadas.
 - Preparar trazabilidad, guía de API, demostración, defensa técnica y checklist de entrega.
 

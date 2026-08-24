@@ -4,7 +4,7 @@ Este documento reúne respuestas breves para explicar y defender la solución. C
 
 ## Resumen de un minuto
 
-> Construí un portal interno de Finanzas con una SPA React y una API FastAPI sobre una base relacional. Elegí un monolito modular porque el alcance no justifica la complejidad operativa de microservicios. El caso profundo es el flujo de notas de crédito: un colaborador crea la solicitud, un jefe de su departamento o un administrador la decide, y el backend impide la autoaprobación. Cada transición genera un evento con actor y fecha dentro de la misma transacción. La autorización combina rol y alcance departamental, la sesión es opaca y revocable en una cookie `HttpOnly`, y las mutaciones sensibles requieren CSRF. SQLite facilita la evaluación local; para producción migraría a PostgreSQL. El backend tiene 21 pruebas automatizadas aprobadas y migraciones sincronizadas.
+> Construí un portal interno de Finanzas con una SPA React y una API FastAPI sobre una base relacional. Elegí un monolito modular porque el alcance no justifica la complejidad operativa de microservicios. El caso profundo es el flujo de notas de crédito: un colaborador crea la solicitud, un jefe de su departamento o un administrador la decide, y el backend impide la autoaprobación. Cada transición genera un evento con actor y fecha dentro de la misma transacción. La autorización combina rol y alcance departamental, la sesión es opaca y revocable en una cookie `HttpOnly`, y las mutaciones sensibles requieren CSRF. SQLite facilita la evaluación local; para producción migraría a PostgreSQL. El backend tiene 26 pruebas automatizadas aprobadas y migraciones sincronizadas.
 
 ## Arquitectura
 
@@ -192,7 +192,7 @@ No. Es una carga reproducible para demostración y pruebas. Si detecta departame
 
 ### ¿Qué está automatizado?
 
-El backend tiene 21 pruebas aprobadas. Cubren login y atributos de cookie, errores genéricos, cuentas inactivas, expiración y revocación de sesiones, rotación CSRF, permisos y aislamiento por departamento, creación y decisiones, normalización de entradas, no autoaprobación, comentario de rechazo, auditoría, versión obsoleta, filtros, paginación, resumen, configuración segura y seed idempotente. `alembic check` confirma que modelos y migraciones están sincronizados.
+El backend tiene 26 pruebas aprobadas. Cubren login y atributos de cookie, errores genéricos, cuentas inactivas, expiración y revocación de sesiones, rotación CSRF, permisos y aislamiento por departamento, creación y decisiones, normalización de entradas, catálogos inactivos o inexistentes, precisión monetaria, límites de comentarios, no autoaprobación, auditoría, versión obsoleta, filtros, paginación, resumen, configuración segura y seed idempotente. `alembic check` confirma que modelos y migraciones están sincronizados.
 
 ### ¿Qué falta verificar?
 
