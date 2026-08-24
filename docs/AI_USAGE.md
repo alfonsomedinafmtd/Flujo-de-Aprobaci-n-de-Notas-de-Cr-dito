@@ -28,3 +28,27 @@ Herramienta principal: OpenAI Codex. Este registro resume interacciones que infl
 Durante el primer modelo SQLAlchemy, la AI utilizó `mapped_column` para construir la tabla de asociación `position_functions`. Ese constructor está diseñado para atributos de clases declarativas; una instancia directa de `Table` necesita objetos `Column`.
 
 El error no se aceptó por inspección visual: se ejecutó una importación real del módulo y SQLAlchemy produjo `ArgumentError: 'SchemaItem' object ... expected`. Se reemplazaron las dos columnas de asociación por `Column` y se repitió la validación. Este caso reforzó la decisión de importar los modelos y crear el esquema en pruebas, en lugar de asumir que código sintácticamente válido representa un modelo ejecutable.
+
+## AI-002 — Endurecimiento, verificación y preparación de entrega
+
+**Prompt resumido:** continuar el proyecto mientras el registro npm permanecía bloqueado, priorizando trabajo verificable sin dependencias del frontend.
+
+**Sugerencias aceptadas:**
+
+- Añadir filtrado y paginación del lado del servidor, conservando el alcance derivado de la sesión.
+- Incorporar un resumen por estado para el dashboard con visibilidad por usuario, departamento o alcance global.
+- Probar el seed desde una base vacía, sus cantidades, eventos e idempotencia.
+- Centralizar pruebas y comprobación de migraciones en `scripts/verify.ps1`.
+- Añadir pruebas de sesión expirada, CSRF, versión obsoleta y ausencia de efectos ante operaciones rechazadas.
+- Preparar trazabilidad, guía de API, demostración, defensa técnica y checklist de entrega.
+
+**Correcciones derivadas de la verificación:**
+
+- La primera prueba del seed intentó convertir directamente un `Result` de SQLAlchemy a diccionario. La ejecución real produjo `TypeError`; se materializaron las filas mediante `.all()` y se repitió el verificador hasta obtener éxito.
+- Al contrastar la guía de API con los esquemas se detectó que el motivo se recortaba después de validar su longitud. Una cadena de espacios podía superar la longitud mínima y quedar vacía; la normalización se movió antes de las restricciones y se añadió una prueba de regresión.
+
+**Sugerencias rechazadas:**
+
+- No se trató un parser sintáctico de TypeScript como sustituto de `typecheck`, Vitest o el build real.
+- No se creó manualmente un `package-lock.json` sin resolver dependencias.
+- No se desactivaron TLS, proxy, antivirus ni políticas corporativas, y no se usaron registros alternativos para eludir el `403` de npm.

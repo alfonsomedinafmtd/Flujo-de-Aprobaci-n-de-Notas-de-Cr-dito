@@ -17,7 +17,17 @@ Aplicación web para consultar la estructura organizacional de una VP de Finanza
 - Frontend: React con TypeScript y Vite.
 - Pruebas: pytest para reglas de negocio y autorización; Vitest para componentes críticos.
 
-Las decisiones y sus motivos se mantienen en [docs/DECISIONS.md](docs/DECISIONS.md). La cobertura del enunciado puede revisarse en [docs/REQUIREMENTS_TRACEABILITY.md](docs/REQUIREMENTS_TRACEABILITY.md) y el recorrido recomendado para presentar la solución está en [docs/DEMO_GUIDE.md](docs/DEMO_GUIDE.md).
+## Documentación
+
+- [Decisiones técnicas](docs/DECISIONS.md)
+- [Modelo relacional](docs/ERD.md)
+- [Matriz de permisos](docs/PERMISSIONS.md)
+- [Trazabilidad de requisitos](docs/REQUIREMENTS_TRACEABILITY.md)
+- [Guía práctica de la API](docs/API_GUIDE.md)
+- [Guía de demostración](docs/DEMO_GUIDE.md)
+- [Guía de defensa técnica](docs/TECHNICAL_DEFENSE.md)
+- [Registro de uso de IA](docs/AI_USAGE.md)
+- [Checklist de entrega](docs/DELIVERY_CHECKLIST.md)
 
 ## Ejecutar el backend en Windows
 
