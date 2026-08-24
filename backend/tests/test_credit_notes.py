@@ -1,7 +1,8 @@
+import pytest
 from sqlalchemy import func, select
 
 from app.enums import CreditNoteStatus
-from app.models import CreditNote, CreditNoteEvent, UserAccount
+from app.models import Company, CreditNote, CreditNoteEvent, Store, UserAccount
 from tests.conftest import login
 
 
@@ -93,7 +94,7 @@ def test_collaborator_cannot_approve_and_rejection_requires_comment(test_context
 
 
 def test_client_cannot_override_requesting_department(test_context) -> None:
-    client, _ = test_context
+    client, session_factory = test_context
     csrf_token = login(client, "collab.a")
     response = client.post(
         "/api/credit-notes",
@@ -109,6 +110,69 @@ def test_client_cannot_override_requesting_department(test_context) -> None:
     )
 
     assert response.status_code == 422
+    with session_factory() as db:
+        assert db.scalar(select(func.count(CreditNote.id))) == 0
+
+
+def test_creation_rejects_inactive_or_unknown_catalog_values(test_context) -> None:
+    client, session_factory = test_context
+    csrf_token = login(client, "collab.a")
+
+    with session_factory() as db:
+        active_store = db.scalar(select(Store).where(Store.active.is_(True)))
+        active_company = db.scalar(select(Company).where(Company.active.is_(True)))
+        assert active_store is not None and active_company is not None
+
+        inactive_store = Store(name="Tienda inactiva", country="Venezuela", active=False)
+        inactive_company = Company(name="Compania inactiva", industry="Pruebas", active=False)
+        db.add_all([inactive_store, inactive_company])
+        db.commit()
+
+        catalog_pairs = (
+            (inactive_store.id, active_company.id),
+            (active_store.id + 10_000, active_company.id),
+            (active_store.id, inactive_company.id),
+            (active_store.id, active_company.id + 10_000),
+        )
+
+    for store_id, company_id in catalog_pairs:
+        response = client.post(
+            "/api/credit-notes",
+            headers={"X-CSRF-Token": csrf_token},
+            json={
+                "amount": "1250.50",
+                "currency": "USD",
+                "reason": "Catalogo no disponible para la solicitud",
+                "store_id": store_id,
+                "company_id": company_id,
+            },
+        )
+        assert response.status_code == 422, response.text
+
+    with session_factory() as db:
+        assert db.scalar(select(func.count(CreditNote.id))) == 0
+
+
+@pytest.mark.parametrize("invalid_amount", ["-0.01", "10.001"])
+def test_creation_rejects_invalid_amount_or_precision(test_context, invalid_amount: str) -> None:
+    client, session_factory = test_context
+    csrf_token = login(client, "collab.a")
+
+    response = client.post(
+        "/api/credit-notes",
+        headers={"X-CSRF-Token": csrf_token},
+        json={
+            "amount": invalid_amount,
+            "currency": "USD",
+            "reason": "Monto que no cumple las reglas contables",
+            "store_id": 1,
+            "company_id": 1,
+        },
+    )
+
+    assert response.status_code == 422
+    with session_factory() as db:
+        assert db.scalar(select(func.count(CreditNote.id))) == 0
 
 
 def test_admin_can_decide_across_departments(test_context) -> None:
@@ -204,6 +268,32 @@ def test_stale_version_does_not_change_state_or_append_audit_event(test_context)
     )
 
     assert response.status_code == 409
+    with session_factory() as db:
+        note = db.get(CreditNote, note_id)
+        event_count = db.scalar(
+            select(func.count(CreditNoteEvent.id)).where(
+                CreditNoteEvent.credit_note_id == note_id,
+            )
+        )
+        assert note is not None
+        assert note.status is CreditNoteStatus.PENDING
+        assert note.version == 1
+        assert event_count == 1
+
+
+def test_decision_rejects_comment_over_maximum_length_without_side_effects(test_context) -> None:
+    client, session_factory = test_context
+    collaborator_csrf = login(client, "collab.a")
+    note_id = create_note(client, collaborator_csrf).json()["id"]
+
+    head_csrf = login(client, "head.a")
+    response = client.post(
+        f"/api/credit-notes/{note_id}/reject",
+        headers={"X-CSRF-Token": head_csrf},
+        json={"expected_version": 1, "comment": "x" * 1001},
+    )
+
+    assert response.status_code == 422
     with session_factory() as db:
         note = db.get(CreditNote, note_id)
         event_count = db.scalar(

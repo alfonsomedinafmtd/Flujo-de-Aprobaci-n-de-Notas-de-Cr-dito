@@ -1,6 +1,6 @@
 from datetime import timedelta
 
-from sqlalchemy import select
+from sqlalchemy import func, select
 
 from app.models import AuthSession, utc_now
 from tests.conftest import TEST_PASSWORD, login
@@ -46,6 +46,19 @@ def test_login_uses_generic_error_and_rejects_inactive_employee(test_context) ->
     assert unknown.status_code == 401
     assert unknown.json()["detail"] == invalid.json()["detail"]
     assert inactive.status_code == 403
+
+
+def test_login_rejects_non_string_username_without_creating_session(test_context) -> None:
+    client, test_session = test_context
+
+    response = client.post(
+        "/api/auth/login",
+        json={"username": 12345, "password": TEST_PASSWORD},
+    )
+
+    assert response.status_code == 422
+    with test_session() as db:
+        assert db.scalar(select(func.count(AuthSession.id))) == 0
 
 
 def test_logout_requires_csrf_and_revokes_session(test_context) -> None:
