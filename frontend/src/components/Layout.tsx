@@ -1,5 +1,6 @@
 import { NavLink, Outlet } from 'react-router-dom'
 
+import farmatodoLogo from '../assets/logo-farmatodo.svg'
 import { useAuth } from '../auth/AuthContext'
 import { roleLabel } from '../utils/permissions'
 
@@ -18,11 +19,7 @@ export function Layout() {
     <div className="app-shell">
       <aside className="sidebar">
         <div className="brand">
-          <span className="brand-mark" aria-hidden="true">F</span>
-          <div>
-            <strong>Finanzas</strong>
-            <small>Portal interno</small>
-          </div>
+          <img className="brand-logo" src={farmatodoLogo} alt="Farmatodo" />
         </div>
 
         <nav aria-label="Navegación principal">
@@ -57,4 +54,3 @@ export function Layout() {
     </div>
   )
 }
-

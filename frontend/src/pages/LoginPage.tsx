@@ -2,6 +2,7 @@ import { useState, type FormEvent } from 'react'
 import { Navigate, useLocation, useNavigate } from 'react-router-dom'
 
 import { ApiError } from '../api'
+import farmatodoLogo from '../assets/logo-farmatodo.svg'
 import { useAuth } from '../auth/AuthContext'
 
 export function LoginPage() {
@@ -36,8 +37,7 @@ export function LoginPage() {
     <main className="login-page">
       <section className="login-intro">
         <div className="brand brand-light">
-          <span className="brand-mark" aria-hidden="true">F</span>
-          <div><strong>Finanzas</strong><small>Portal interno</small></div>
+          <img className="brand-logo" src={farmatodoLogo} alt="Farmatodo" />
         </div>
         <div>
           <span className="eyebrow">Transformación financiera</span>
@@ -82,4 +82,3 @@ export function LoginPage() {
     </main>
   )
 }
-
