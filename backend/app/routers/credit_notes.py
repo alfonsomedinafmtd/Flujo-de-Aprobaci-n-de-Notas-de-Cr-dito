@@ -40,8 +40,15 @@ def list_notes(
     user: CurrentUser,
     limit: int = Query(default=50, ge=1, le=100),
     offset: int = Query(default=0, ge=0),
+    note_status: CreditNoteStatus | None = Query(default=None, alias="status"),
 ) -> CreditNoteListRead:
-    notes, total = list_credit_notes(db, user, limit=limit, offset=offset)
+    notes, total = list_credit_notes(
+        db,
+        user,
+        limit=limit,
+        offset=offset,
+        status_filter=note_status,
+    )
     return CreditNoteListRead(
         items=[present_credit_note(note) for note in notes],
         total=total,
@@ -92,4 +99,3 @@ def reject_note(
         new_status=CreditNoteStatus.REJECTED,
     )
     return present_credit_note(note)
-

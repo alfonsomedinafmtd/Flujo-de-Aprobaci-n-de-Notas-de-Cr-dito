@@ -194,3 +194,33 @@ def test_stale_version_does_not_change_state_or_append_audit_event(test_context)
         assert note.status is CreditNoteStatus.PENDING
         assert note.version == 1
         assert event_count == 1
+
+
+def test_list_filters_by_status_and_preserves_pagination_metadata(test_context) -> None:
+    client, _ = test_context
+    collaborator_csrf = login(client, "collab.a")
+    approved_id = create_note(client, collaborator_csrf).json()["id"]
+    pending_id = create_note(client, collaborator_csrf).json()["id"]
+
+    head_csrf = login(client, "head.a")
+    approval = client.post(
+        f"/api/credit-notes/{approved_id}/approve",
+        headers={"X-CSRF-Token": head_csrf},
+        json={"expected_version": 1},
+    )
+    assert approval.status_code == 200
+
+    pending = client.get("/api/credit-notes?status=PENDING&limit=1&offset=0")
+    assert pending.status_code == 200
+    assert pending.json()["total"] == 1
+    assert pending.json()["limit"] == 1
+    assert pending.json()["offset"] == 0
+    assert [item["id"] for item in pending.json()["items"]] == [pending_id]
+
+    approved = client.get("/api/credit-notes?status=APPROVED&limit=1&offset=1")
+    assert approved.status_code == 200
+    assert approved.json()["total"] == 1
+    assert approved.json()["items"] == []
+
+    invalid = client.get("/api/credit-notes?status=UNKNOWN")
+    assert invalid.status_code == 422

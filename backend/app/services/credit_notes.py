@@ -42,8 +42,11 @@ def list_credit_notes(
     *,
     limit: int,
     offset: int,
+    status_filter: CreditNoteStatus | None = None,
 ) -> tuple[list[CreditNote], int]:
     conditions = _scope_conditions(user)
+    if status_filter is not None:
+        conditions.append(CreditNote.status == status_filter)
     statement = (
         select(CreditNote)
         .where(*conditions)

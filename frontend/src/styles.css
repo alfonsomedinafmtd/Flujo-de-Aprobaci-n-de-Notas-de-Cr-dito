@@ -86,6 +86,8 @@ tbody tr:hover { background: #fbfdfd; }
 .filter-bar { margin: -8px 0 20px; display: flex; gap: 8px; overflow-x: auto; }
 .filter { padding: 8px 13px; border: 1px solid var(--line); border-radius: 999px; color: var(--muted); background: white; cursor: pointer; }
 .filter.active { border-color: var(--teal); color: white; background: var(--teal); }
+.pagination { margin-top: 18px; display: flex; align-items: center; justify-content: flex-end; gap: 14px; }
+.pagination span { color: var(--muted); font-size: 14px; }
 .button { display: inline-flex; align-items: center; justify-content: center; padding: 11px 17px; border: 1px solid transparent; border-radius: 9px; font-weight: 750; text-decoration: none; cursor: pointer; }
 .button:disabled { opacity: .55; cursor: not-allowed; }
 .button-primary { color: white; background: var(--teal); }
@@ -165,5 +167,5 @@ textarea { resize: vertical; }
   .user-panel { grid-template-columns: 38px 1fr; }
   .text-button { grid-column: 1 / -1; }
   .timeline-content > div { flex-direction: column; gap: 4px; }
+  .pagination { justify-content: space-between; }
 }
-
