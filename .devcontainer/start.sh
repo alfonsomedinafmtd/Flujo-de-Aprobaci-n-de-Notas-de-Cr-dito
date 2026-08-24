@@ -16,12 +16,30 @@ api_url="http://localhost:8000/docs"
 vite_allowed_host=""
 allowed_hosts="localhost,127.0.0.1,testserver"
 session_cookie_secure="false"
+codespace_name="${CODESPACE_NAME:-}"
+forwarding_domain="${GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN:-}"
+shared_codespace_env="/workspaces/.codespaces/shared/.env"
 
 if [[ "${CODESPACES:-}" == "true" ]] &&
-   [[ -n "${CODESPACE_NAME:-}" ]] &&
-   [[ -n "${GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN:-}" ]]; then
-  frontend_host="${CODESPACE_NAME}-5173.${GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN}"
-  backend_host="${CODESPACE_NAME}-8000.${GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN}"
+   [[ -r "$shared_codespace_env" ]]; then
+  if [[ -z "$codespace_name" ]]; then
+    codespace_name="$(
+      sed -n 's/^CODESPACE_NAME=//p' "$shared_codespace_env" | head -n 1
+    )"
+  fi
+  if [[ -z "$forwarding_domain" ]]; then
+    forwarding_domain="$(
+      sed -n 's/^GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN=//p' \
+        "$shared_codespace_env" | head -n 1
+    )"
+  fi
+fi
+
+if [[ "${CODESPACES:-}" == "true" ]] &&
+   [[ -n "$codespace_name" ]] &&
+   [[ -n "$forwarding_domain" ]]; then
+  frontend_host="${codespace_name}-5173.${forwarding_domain}"
+  backend_host="${codespace_name}-8000.${forwarding_domain}"
 
   portal_url="https://${frontend_host}"
   api_url="https://${backend_host}/docs"
@@ -43,7 +61,7 @@ export SESSION_COOKIE_SECURE="$session_cookie_secure"
 if ! curl -fsS "http://127.0.0.1:8000/api/health" >/dev/null 2>&1; then
   (
     cd "$ROOT/backend"
-    nohup "$PYTHON" -m uvicorn app.main:app \
+    nohup setsid "$PYTHON" -m uvicorn app.main:app \
       --reload \
       --host 0.0.0.0 \
       --port 8000 \
@@ -62,7 +80,7 @@ if ! curl -fsS "http://127.0.0.1:5173" >/dev/null 2>&1; then
 
   (
     cd "$ROOT/frontend"
-    nohup env "${vite_environment[@]}" \
+    nohup setsid env "${vite_environment[@]}" \
       npm run dev -- --host 0.0.0.0 --port 5173 --strictPort \
       >"$STATE/frontend.log" 2>&1 </dev/null &
     printf '%s\n' "$!" >"$STATE/frontend.pid"
