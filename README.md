@@ -45,6 +45,12 @@ Set-Location backend
 python -m pytest
 ```
 
+También se puede ejecutar toda la verificación disponible del backend desde la raíz:
+
+```powershell
+.\scripts\verify.ps1 -BackendOnly
+```
+
 ## Ejecutar el frontend
 
 Requisitos: Node.js 24 LTS o una versión compatible con Vite 8.
@@ -64,6 +70,13 @@ Para validar tipos, pruebas y build de producción:
 npm run typecheck
 npm test
 npm run build
+```
+
+Cuando las dependencias estén instaladas, el verificador completo ejecuta backend, tipos, pruebas y build:
+
+```powershell
+Set-Location ..
+.\scripts\verify.ps1
 ```
 
 ## Seguridad implementada
