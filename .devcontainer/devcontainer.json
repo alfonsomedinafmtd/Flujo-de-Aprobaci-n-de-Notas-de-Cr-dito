@@ -4,6 +4,9 @@
   "features": {
     "ghcr.io/devcontainers/features/node:2": {
       "version": "24"
+    },
+    "ghcr.io/devcontainers/features/sshd:1": {
+      "version": "latest"
     }
   },
   "forwardPorts": [5173, 8000],
