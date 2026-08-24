@@ -27,6 +27,10 @@ def test_login_uses_generic_error_and_rejects_inactive_employee(test_context) ->
         "/api/auth/login",
         json={"username": "collab.a", "password": "incorrecta-123"},
     )
+    unknown = client.post(
+        "/api/auth/login",
+        json={"username": "no-existe", "password": "incorrecta-123"},
+    )
     inactive = client.post(
         "/api/auth/login",
         json={"username": "inactive.a", "password": TEST_PASSWORD},
@@ -34,6 +38,8 @@ def test_login_uses_generic_error_and_rejects_inactive_employee(test_context) ->
 
     assert invalid.status_code == 401
     assert invalid.json()["detail"] == "Usuario o contraseña inválidos"
+    assert unknown.status_code == 401
+    assert unknown.json()["detail"] == invalid.json()["detail"]
     assert inactive.status_code == 403
 
 

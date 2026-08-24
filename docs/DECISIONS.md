@@ -58,4 +58,5 @@ En la base solo se persistirá el hash del identificador de sesión. El cierre d
 
 - No se conservará todavía historial de cambios organizacionales de cargo o departamento.
 - No se implementará recuperación de contraseña ni segundo factor en el alcance inicial.
+- El corte inicial no incluye rate limiting distribuido ni bloqueo temporal por intentos fallidos; debe incorporarse antes de exponer el login fuera de una red interna controlada.
 - SQLite es adecuado para la evaluación local, no la recomendación final para concurrencia de producción.

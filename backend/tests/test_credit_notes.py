@@ -1,3 +1,6 @@
+from sqlalchemy import select
+
+from app.models import CreditNote, UserAccount
 from tests.conftest import login
 
 
@@ -105,4 +108,43 @@ def test_client_cannot_override_requesting_department(test_context) -> None:
     )
 
     assert response.status_code == 422
+
+
+def test_admin_can_decide_across_departments(test_context) -> None:
+    client, _ = test_context
+    collaborator_csrf = login(client, "collab.a")
+    note_id = create_note(client, collaborator_csrf).json()["id"]
+
+    admin_csrf = login(client, "admin")
+    response = client.post(
+        f"/api/credit-notes/{note_id}/approve",
+        headers={"X-CSRF-Token": admin_csrf},
+        json={"expected_version": 1, "comment": "Revisión global documentada"},
+    )
+
+    assert response.status_code == 200
+    assert response.json()["events"][-1]["actor_username"] == "admin"
+
+
+def test_autoapproval_is_rejected_even_for_inconsistent_imported_data(test_context) -> None:
+    client, session_factory = test_context
+    collaborator_csrf = login(client, "collab.a")
+    note_id = create_note(client, collaborator_csrf).json()["id"]
+
+    with session_factory() as db:
+        note = db.get(CreditNote, note_id)
+        head = db.scalar(select(UserAccount).where(UserAccount.username == "head.a"))
+        assert note is not None and head is not None
+        note.created_by_user_id = head.id
+        db.commit()
+
+    head_csrf = login(client, "head.a")
+    response = client.post(
+        f"/api/credit-notes/{note_id}/approve",
+        headers={"X-CSRF-Token": head_csrf},
+        json={"expected_version": 1},
+    )
+
+    assert response.status_code == 403
+    assert response.json()["detail"] == "No se permite la autoaprobación"
 

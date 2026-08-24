@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from starlette.middleware.trustedhost import TrustedHostMiddleware
 
 from app.config import get_settings
 from app.routers import auth, credit_notes, organization
@@ -19,6 +20,7 @@ app.add_middleware(
     allow_methods=["GET", "POST"],
     allow_headers=["Content-Type", "X-CSRF-Token"],
 )
+app.add_middleware(TrustedHostMiddleware, allowed_hosts=settings.allowed_host_list)
 
 app.include_router(auth.router, prefix="/api")
 app.include_router(organization.router, prefix="/api")
@@ -28,4 +30,3 @@ app.include_router(credit_notes.router, prefix="/api")
 @app.get("/api/health", tags=["health"])
 def health() -> dict[str, str]:
     return {"status": "ok"}
-

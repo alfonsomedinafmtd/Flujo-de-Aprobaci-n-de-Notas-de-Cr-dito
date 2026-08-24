@@ -10,10 +10,11 @@ from app.enums import EmployeeStatus
 from app.models import AuthSession, Employee, Position, UserAccount, utc_now
 from app.presenters import present_current_user
 from app.schemas import CsrfResponse, CurrentUserRead, LoginRequest, LoginResponse
-from app.security import digest_token, generate_token, verify_password
+from app.security import digest_token, generate_token, hash_password, verify_password
 
 
 router = APIRouter(prefix="/auth", tags=["authentication"])
+DUMMY_PASSWORD_HASH = hash_password(generate_token())
 
 
 @router.post("/login", response_model=LoginResponse)
@@ -28,7 +29,9 @@ def login(payload: LoginRequest, response: Response, db: DbSession) -> LoginResp
         )
     )
     user = db.scalar(statement)
-    if user is None or not verify_password(payload.password.get_secret_value(), user.password_hash):
+    candidate_hash = user.password_hash if user is not None else DUMMY_PASSWORD_HASH
+    password_is_valid = verify_password(payload.password.get_secret_value(), candidate_hash)
+    if user is None or not password_is_valid:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Usuario o contraseña inválidos",
