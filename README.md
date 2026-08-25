@@ -2,6 +2,10 @@
 
 Aplicación web para consultar la estructura organizacional de una VP de Finanzas y operar un flujo auditable de solicitudes de notas de crédito.
 
+[![Abrir portal en GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/alfonsomedinafmtd/Flujo-de-Aprobaci-n-de-Notas-de-Cr-dito?quickstart=1)
+
+El botón crea un entorno temporal en GitHub, instala el proyecto y abre el portal en el navegador sin requerir una instalación local.
+
 ## Alcance seleccionado
 
 - Directorio de departamentos y colaboradores ficticios.
@@ -84,7 +88,15 @@ La interfaz queda disponible en `http://localhost:5173`. La cookie de sesión se
 
 ## Ejecutar en GitHub Codespaces
 
-[Crear y abrir el Codespace](https://codespaces.new/alfonsomedinafmtd/Flujo-de-Aprobaci-n-de-Notas-de-Cr-dito?quickstart=1)
+### Apertura rápida
+
+1. Selecciona [Abrir portal en GitHub Codespaces](https://codespaces.new/alfonsomedinafmtd/Flujo-de-Aprobaci-n-de-Notas-de-Cr-dito?quickstart=1).
+2. Inicia sesión en GitHub si la plataforma lo solicita y confirma **Create codespace**.
+3. Espera a que finalice la creación del contenedor. La primera ejecución instala las dependencias y prepara los datos ficticios automáticamente.
+4. Codespaces abrirá en el navegador el puerto `5173`, identificado como **Portal de Finanzas**.
+5. Consulta `.devcontainer/.state/demo-credentials.txt` desde el explorador de VS Code para iniciar sesión con cualquiera de los roles generados.
+
+Si el navegador no se abre automáticamente, entra en la pestaña **Ports**, localiza **Portal de Finanzas (5173)** y selecciona el icono **Open in Browser**.
 
 El repositorio incluye una configuración reproducible en `.devcontainer`. Al crear
 un Codespace desde la rama `main` se instalan Python, Node.js y todas las
@@ -96,6 +108,8 @@ aleatorias se muestran en el registro de creación y permanecen solo dentro del
 Codespace en `.devcontainer/.state/demo-credentials.txt`; este archivo está
 ignorado por Git. La documentación técnica queda disponible en el puerto `8000`.
 Los puertos son privados de manera predeterminada y no deben cambiarse a públicos.
+
+El visualizador permanece disponible mientras el Codespace esté ejecutándose. Al detenerlo, su URL temporal deja de responder hasta volver a iniciarlo; esto no equivale a un despliegue permanente.
 
 Si el contenedor ya está creado y se necesita arrancar nuevamente los servicios:
 
