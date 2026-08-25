@@ -2,7 +2,7 @@
 
 Aplicación web para consultar la estructura organizacional de una VP de Finanzas y operar un flujo auditable de solicitudes de notas de crédito.
 
-[![Abrir portal en GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/alfonsomedinafmtd/Flujo-de-Aprobaci-n-de-Notas-de-Cr-dito?quickstart=1)
+[![Abrir portal en GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/alfonsomedinafmtd/Flujo-de-Aprobaci-n-de-Notas-de-Cr-dito/tree/main)
 
 El botón crea un entorno temporal en GitHub, instala el proyecto y abre el portal en el navegador sin requerir una instalación local.
 
@@ -90,13 +90,26 @@ La interfaz queda disponible en `http://localhost:5173`. La cookie de sesión se
 
 ### Apertura rápida
 
-1. Selecciona [Abrir portal en GitHub Codespaces](https://codespaces.new/alfonsomedinafmtd/Flujo-de-Aprobaci-n-de-Notas-de-Cr-dito?quickstart=1).
-2. Inicia sesión en GitHub si la plataforma lo solicita y confirma **Create codespace**.
+1. Selecciona [Abrir portal en GitHub Codespaces](https://codespaces.new/alfonsomedinafmtd/Flujo-de-Aprobaci-n-de-Notas-de-Cr-dito/tree/main).
+2. Inicia sesión en GitHub si la plataforma lo solicita, confirma que la rama seleccionada sea `main` y pulsa **Create codespace**.
 3. Espera a que finalice la creación del contenedor. La primera ejecución instala las dependencias y prepara los datos ficticios automáticamente.
 4. Codespaces abrirá en el navegador el puerto `5173`, identificado como **Portal de Finanzas**.
 5. Consulta `.devcontainer/.state/demo-credentials.txt` desde el explorador de VS Code para iniciar sesión con cualquiera de los roles generados.
 
 Si el navegador no se abre automáticamente, entra en la pestaña **Ports**, localiza **Portal de Finanzas (5173)** y selecciona el icono **Open in Browser**.
+
+### Actualizar un Codespace existente
+
+Un Codespace conserva la versión del repositorio con la que fue creado. Si ya existe uno y muestra una interfaz anterior, ejecuta en su terminal:
+
+```bash
+git status --short
+git switch main
+git pull --ff-only origin main
+bash .devcontainer/start.sh
+```
+
+El primer comando debe mostrar el árbol limpio antes de actualizar. Si existen cambios propios sin confirmar, deben conservarse mediante un commit o `git stash` antes del `pull`. Después de la actualización, recarga el navegador con `Ctrl+Shift+R` para descartar recursos almacenados en caché.
 
 El repositorio incluye una configuración reproducible en `.devcontainer`. Al crear
 un Codespace desde la rama `main` se instalan Python, Node.js y todas las
