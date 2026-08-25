@@ -18,7 +18,7 @@ Esta matriz relaciona los requisitos del enunciado principal con la implementaci
 | Base de datos relacional y scripts de creación/carga | SQLite con SQLAlchemy, migración Alembic y seed idempotente | `backend/alembic/versions` y `backend/app/seed.py` |
 | Frontend con framework | SPA React + TypeScript + Vite, protegida por sesión | `frontend/src` y scripts de `frontend/package.json` |
 | Configuración externa y control de versiones | Variables de entorno de ejemplo, secretos ignorados y commits incrementales | `.env.example`, `.gitignore` e historial Git |
-| Registro del uso de IA | Decisiones aceptadas, modificadas y rechazadas, incluido un error detectado | `docs/AI_USAGE.md` |
+| Registro del uso de IA | Ocho prompts principales; decisiones aceptadas, modificadas y rechazadas; tres errores detectados y guía de defensa en vivo | `docs/AI_USAGE.md` |
 
 ## Verificación reproducible
 

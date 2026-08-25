@@ -29,6 +29,8 @@ Aplicación web para consultar la estructura organizacional de una VP de Finanza
 - [Registro de uso de IA](docs/AI_USAGE.md)
 - [Checklist de entrega](docs/DELIVERY_CHECKLIST.md)
 
+El registro de IA incluye los prompts principales, las sugerencias aceptadas, modificadas y rechazadas con sus motivos, tres errores concretos detectados y su corrección, y un mapa de archivos para la posible explicación o modificación en vivo.
+
 ## Ejecutar el backend en Windows
 
 Requisitos: Python 3.12 o superior.

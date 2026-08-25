@@ -1,4 +1,4 @@
-import { useRef, useState, type FormEvent } from 'react'
+import { useState, type FormEvent } from 'react'
 import { Navigate, useLocation, useNavigate } from 'react-router-dom'
 
 import { ApiError } from '../api'
@@ -13,10 +13,8 @@ export function LoginPage() {
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   const [submitting, setSubmitting] = useState(false)
-  const usernameInput = useRef<HTMLInputElement>(null)
 
   const requestedDestination = (location.state as { from?: string } | null)?.from
-  const isCreditNoteRequest = requestedDestination === '/credit-notes/new'
 
   if (!loading && user) {
     return <Navigate to="/" replace />
@@ -37,11 +35,6 @@ export function LoginPage() {
     }
   }
 
-  function selectCreditNoteRequest() {
-    navigate('/login', { replace: true, state: { from: '/credit-notes/new' } })
-    requestAnimationFrame(() => usernameInput.current?.focus())
-  }
-
   return (
     <main className="login-page">
       <section className="login-intro">
@@ -52,14 +45,6 @@ export function LoginPage() {
           <span className="eyebrow">Planificación Financiera</span>
           <h1>Portal interno de gestión financiera</h1>
           <p>Consulta la estructura organizacional y gestiona solicitudes de notas de crédito mediante controles de acceso, segregación de funciones y trazabilidad.</p>
-          <div className="login-process-card">
-            <span className="eyebrow">Proceso disponible</span>
-            <strong>Solicitud de nota de crédito</strong>
-            <p>El colaborador registra la solicitud y un rol autorizado de su departamento revisa la decisión.</p>
-            <button className="button button-light" type="button" onClick={selectCreditNoteRequest}>
-              {isCreditNoteRequest ? 'Solicitud seleccionada' : 'Ingresar para solicitar'}
-            </button>
-          </div>
         </div>
         <small>Vicepresidencia de Finanzas · Entorno de evaluación con información ficticia.</small>
       </section>
@@ -68,14 +53,13 @@ export function LoginPage() {
         <form className="login-card" onSubmit={handleSubmit}>
           <div>
             <span className="eyebrow">Autenticación</span>
-            <h2>{isCreditNoteRequest ? 'Acceder para solicitar' : 'Acceso al portal'}</h2>
-            <p>{isCreditNoteRequest ? 'Inicia sesión como colaborador para continuar con la solicitud.' : 'Utiliza las credenciales asignadas según tu rol.'}</p>
+            <h2>Acceso al portal</h2>
+            <p>Utiliza las credenciales asignadas según tu rol.</p>
           </div>
           {error && <div className="alert alert-error" role="alert">{error}</div>}
           <label>
             Usuario
             <input
-              ref={usernameInput}
               autoComplete="username"
               value={username}
               onChange={(event) => setUsername(event.target.value)}
@@ -93,7 +77,7 @@ export function LoginPage() {
             />
           </label>
           <button className="button button-primary" disabled={submitting} type="submit">
-            {submitting ? 'Validando…' : isCreditNoteRequest ? 'Ingresar y continuar' : 'Entrar al portal'}
+            {submitting ? 'Validando…' : 'Entrar al portal'}
           </button>
         </form>
       </section>

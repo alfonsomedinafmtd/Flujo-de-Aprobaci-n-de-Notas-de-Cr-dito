@@ -57,6 +57,16 @@ Verificación integral ejecutada desde la raíz:
 - [x] Revisar nuevamente `git status` antes de entregar.
 - [x] Confirmar que ningún secreto nuevo fue agregado durante la validación final.
 
+## Uso de Inteligencia Artificial
+
+- [x] Registrar los prompts principales que influyeron en arquitectura, datos, seguridad o experiencia.
+- [x] Identificar las sugerencias aceptadas y justificar su adopción.
+- [x] Identificar las sugerencias modificadas y explicar el criterio humano aplicado.
+- [x] Identificar las sugerencias rechazadas y explicar por qué no eran adecuadas.
+- [x] Documentar al menos un error concreto de la IA y la forma en que se detectó y corrigió.
+- [x] Relacionar las decisiones con archivos, pruebas y comandos reproducibles.
+- [ ] Leer íntegramente `docs/AI_USAGE.md` y ensayar su explicación con palabras propias.
+
 ## Git y publicación
 
 Ejecutar primero la auditoría de solo lectura:

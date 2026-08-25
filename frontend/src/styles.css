@@ -155,9 +155,6 @@ textarea { resize: vertical; }
 .login-intro-copy { max-width: 680px; }
 .login-intro h1 { max-width: 620px; margin: 14px 0 20px; font-size: clamp(38px, 4.6vw, 58px); line-height: 1.05; letter-spacing: -.035em; }
 .login-intro p { max-width: 560px; color: #bfd0d3; font-size: 18px; line-height: 1.6; }
-.login-process-card { width: min(540px, 100%); margin-top: 34px; padding: 20px 22px; border: 1px solid rgba(255,255,255,.18); border-left: 4px solid var(--brand-accent); border-radius: 10px; background: rgba(1,31,70,.42); }
-.login-process-card strong { display: block; margin: 6px 0; font-size: 20px; }
-.login-process-card p { margin: 0 0 16px; color: #d3e2ec; font-size: 14px; line-height: 1.5; }
 .login-intro > small { color: #89a5a9; }
 .login-form-panel { padding: 36px; display: grid; place-items: center; background: #eef3f4; }
 .login-card { width: min(430px, 100%); padding: 36px; display: grid; gap: 20px; border: 1px solid var(--line); border-radius: 18px; background: white; box-shadow: 0 20px 55px rgba(22,47,55,.1); }
