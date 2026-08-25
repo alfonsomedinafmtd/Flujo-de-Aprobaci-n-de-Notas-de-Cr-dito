@@ -1,19 +1,26 @@
-import { NavLink, Outlet } from 'react-router-dom'
+import { NavLink, Outlet, useLocation } from 'react-router-dom'
 
 import farmatodoLogo from '../assets/logo-farmatodo.svg'
 import { useAuth } from '../auth/AuthContext'
 import { canCreateCreditNote, roleLabel } from '../utils/permissions'
 
+interface NavigationItem {
+  to: string
+  label: string
+  end: boolean
+  relatedPaths?: string[]
+}
+
 export function Layout() {
   const { user, logout } = useAuth()
+  const location = useLocation()
   if (!user) return null
 
-  const navigation = [
+  const navigation: NavigationItem[] = [
     ...(user.role === 'ADMIN'
       ? [{ to: '/analytics', label: 'Analítica', end: true }]
       : [{ to: '/', label: 'Inicio', end: true }]),
-    { to: '/organization', label: 'Organización', end: true },
-    { to: '/positions', label: 'Cargos y funciones', end: true },
+    { to: '/organization', label: 'Estructura organizacional', end: true, relatedPaths: ['/positions'] },
     { to: '/credit-notes', label: 'Notas de crédito', end: true },
     ...(canCreateCreditNote(user.role)
       ? [{ to: '/credit-notes/new', label: 'Solicitar nota de crédito', end: true }]
@@ -33,7 +40,11 @@ export function Layout() {
               key={item.to}
               to={item.to}
               end={item.end}
-              className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link')}
+              className={({ isActive }) => (
+                isActive || item.relatedPaths?.includes(location.pathname)
+                  ? 'nav-link active'
+                  : 'nav-link'
+              )}
             >
               {item.label}
             </NavLink>

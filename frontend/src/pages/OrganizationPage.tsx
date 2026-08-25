@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 import { ApiError, apiRequest } from '../api'
 import { useAuth } from '../auth/AuthContext'
 import { EmptyState, ErrorMessage, Loading } from '../components/Feedback'
+import { OrganizationTabs } from '../components/OrganizationTabs'
 import { StatusBadge } from '../components/StatusBadge'
 import type { Department, EmployeeDetail } from '../types'
 import { formatCalendarDate } from '../utils/format'
@@ -49,6 +50,7 @@ export function OrganizationPage() {
         </div>
         <p>La API limita automáticamente departamentos y colaboradores al alcance de tu sesión.</p>
       </header>
+      <OrganizationTabs />
       {loading && <Loading label="Consultando estructura organizacional…" />}
       {error && <ErrorMessage message={error} />}
 

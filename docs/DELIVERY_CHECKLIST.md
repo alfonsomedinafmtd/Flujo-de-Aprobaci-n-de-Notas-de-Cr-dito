@@ -7,7 +7,8 @@ Usar esta lista antes de compartir el repositorio o generar un archivo ZIP.
 - [x] Cuatro departamentos con entre 8 y 12 colaboradores ficticios por departamento.
 - [x] Cargos, seniority y funciones normalizados.
 - [x] Roles Administrador, Jefe de departamento y Colaborador.
-- [x] Módulos Organización, Cargos y funciones, y Notas de crédito.
+- [x] Tres áreas principales por rol: Inicio/Analítica, Estructura organizacional y Notas de crédito.
+- [x] Estructura organizacional agrupa colaboradores y cargos en pestañas, conservando rutas y endpoints separados.
 - [x] Creación, aprobación y rechazo de notas con estados terminales.
 - [x] Segregación de funciones, alcance departamental y prohibición de autoaprobación.
 - [x] Auditoría con actor, transición, comentario y fecha.

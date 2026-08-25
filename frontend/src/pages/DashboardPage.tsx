@@ -54,21 +54,15 @@ export function DashboardPage() {
         )}
       </section>
 
-      <section className="module-grid" aria-label="Módulos disponibles">
+      <section className="module-grid module-grid-compact" aria-label="Módulos disponibles">
         <Link className="module-card" to="/organization">
           <span className="module-number">01</span>
-          <h2>Organización</h2>
-          <p>Consulta colaboradores dentro del alcance permitido por tu sesión.</p>
-          <span className="card-link">Abrir directorio →</span>
-        </Link>
-        <Link className="module-card" to="/positions">
-          <span className="module-number">02</span>
-          <h2>Cargos y funciones</h2>
-          <p>Revisa seniority, responsabilidades y pertenencia departamental.</p>
-          <span className="card-link">Ver catálogo →</span>
+          <h2>Estructura organizacional</h2>
+          <p>Consulta colaboradores, departamentos, cargos, seniority y funciones desde dos vistas relacionadas.</p>
+          <span className="card-link">Explorar estructura →</span>
         </Link>
         <Link className="module-card module-card-accent" to={canCreate ? '/credit-notes/new' : '/credit-notes'}>
-          <span className="module-number">03</span>
+          <span className="module-number">02</span>
           <h2>{canCreate ? 'Solicitud de nota de crédito' : 'Notas de crédito'}</h2>
           <p>
             {canCreate && 'Registra una solicitud para tu departamento; el proceso conservará su trazabilidad.'}

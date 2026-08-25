@@ -44,7 +44,7 @@ El script solicita de forma segura las credenciales de un colaborador y de un je
 
 1. Iniciar sesión con un colaborador de Cuentas por Cobrar.
 2. Mostrar que el dashboard resume solo sus solicitudes.
-3. Abrir Organización para mostrar su perfil completo y el único departamento permitido; después, recorrer Cargos y funciones.
+3. Abrir Estructura organizacional, mostrar su perfil y departamento, y cambiar a la pestaña Cargos y funciones.
 4. Usar el acceso directo `Solicitar nota de crédito` del dashboard o del menú y registrar una solicitud.
 5. Resaltar que el formulario no permite seleccionar departamento: la API lo deriva de la sesión.
 6. Abrir el detalle y señalar el primer evento de auditoría con usuario, fecha y transición `Sin estado → Pendiente`.

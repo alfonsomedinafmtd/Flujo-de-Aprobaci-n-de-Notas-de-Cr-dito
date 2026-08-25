@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 
 import { ApiError, apiRequest } from '../api'
 import { EmptyState, ErrorMessage, Loading } from '../components/Feedback'
+import { OrganizationTabs } from '../components/OrganizationTabs'
 import type { Position } from '../types'
 
 export function PositionsPage() {
@@ -24,6 +25,7 @@ export function PositionsPage() {
         <div><span className="eyebrow">Modelo de responsabilidades</span><h1>Cargos y funciones</h1></div>
         <p>Las funciones se relacionan con el cargo y el departamento sin duplicarse por colaborador.</p>
       </header>
+      <OrganizationTabs />
       {loading && <Loading label="Consultando cargos…" />}
       {error && <ErrorMessage message={error} />}
       {!loading && !error && positions.length === 0 && (
@@ -44,4 +46,3 @@ export function PositionsPage() {
     </div>
   )
 }
-

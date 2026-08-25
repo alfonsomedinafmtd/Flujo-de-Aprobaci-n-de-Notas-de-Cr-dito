@@ -8,8 +8,7 @@ El botón crea un entorno temporal en GitHub, instala el proyecto y abre el port
 
 ## Alcance seleccionado
 
-- Directorio de departamentos y colaboradores ficticios.
-- Catálogo de cargos, seniority y funciones.
+- Estructura organizacional con vistas relacionadas de colaboradores, departamentos, cargos, seniority y funciones.
 - Creación, aprobación y rechazo de notas de crédito con segregación de funciones.
 - Autenticación mediante sesión y autorización por rol y departamento en el backend.
 - Historial inmutable de cada cambio de estado.

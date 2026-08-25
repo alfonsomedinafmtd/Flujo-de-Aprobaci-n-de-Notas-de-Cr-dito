@@ -10,7 +10,7 @@ Este documento reúne respuestas breves para explicar y defender la solución. C
 
 ### ¿Cómo está organizada la solución?
 
-La solución tiene tres capas desplegables: React con TypeScript y Vite en el cliente, FastAPI con SQLAlchemy en el servidor y una base de datos relacional. En el backend separé autenticación, organización y notas de crédito en routers, dependencias, servicios, esquemas y modelos. React presenta los permisos, pero FastAPI es la autoridad que vuelve a validar cada operación.
+La solución tiene tres capas desplegables: React con TypeScript y Vite en el cliente, FastAPI con SQLAlchemy en el servidor y una base de datos relacional. En el backend separé autenticación, organización y notas de crédito en routers, dependencias, servicios, esquemas y modelos. En la interfaz, colaboradores y cargos se agrupan bajo Estructura organizacional mediante pestañas, pero conservan rutas y contratos separados. React presenta los permisos, pero FastAPI es la autoridad que vuelve a validar cada operación.
 
 ### ¿Por qué un monolito modular y no microservicios?
 

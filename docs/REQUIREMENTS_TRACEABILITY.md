@@ -4,13 +4,13 @@ Esta matriz relaciona los requisitos del enunciado principal con la implementaci
 
 | Requisito | Implementación | Evidencia |
 |---|---|---|
-| Al menos cuatro departamentos | Cuentas por Cobrar, Cuentas por Pagar, Planificación Financiera y Tesorería | `backend/app/seed.py` y módulo Organización |
+| Al menos cuatro departamentos | Cuentas por Cobrar, Cuentas por Pagar, Planificación Financiera y Tesorería | `backend/app/seed.py` y vista Colaboradores de Estructura organizacional |
 | Entre 8 y 12 colaboradores ficticios por departamento | Ocho colaboradores base en cada departamento; el administrador pertenece adicionalmente a Planificación | Mensaje final del seed: 4 departamentos y 33 colaboradores |
 | Detalle de cada colaborador | Nombre, país, fecha de ingreso, correo ficticio, estado, cargo, departamento, usuario y rol del portal | Endpoints `/organization/profile` y `/organization/employees`, y vista Organización según rol |
-| Cargos, seniority y funciones normalizados | `positions`, `business_functions` y relación muchos-a-muchos `position_functions` | Migración inicial, `docs/ERD.md` y módulo Cargos y funciones |
+| Cargos, seniority y funciones normalizados | `positions`, `business_functions` y relación muchos-a-muchos `position_functions` | Migración inicial, `docs/ERD.md` y pestaña Cargos y funciones |
 | Roles Administrador, Jefe y Colaborador | `UserRole` y autorización derivada exclusivamente de la sesión | `docs/PERMISSIONS.md` y pruebas de autenticación/autorización |
 | Permisos aplicados en backend | Consultas filtradas por usuario o departamento y decisiones restringidas por rol | `backend/app/services/credit_notes.py` y `backend/app/routers/organization.py` |
-| Tres módulos funcionales | Organización, Cargos y funciones, y Notas de crédito | Rutas React y endpoints `/organization` y `/credit-notes` |
+| Tres áreas principales visibles por rol | Inicio o Analítica, Estructura organizacional y Notas de crédito; la estructura contiene submódulos de Colaboradores y Cargos y funciones | Rutas React `/`, `/analytics`, `/organization`, `/positions` y `/credit-notes` |
 | Analítica administrativa adicional | Indicadores y agrupaciones por área, cargo y solicitante, con filtros, tendencia y pendientes antiguas | Ruta React `/analytics`, endpoint `/credit-notes/analytics` y pruebas de autorización |
 | Proceso profundo seleccionado: notas de crédito | Creación, aprobación, rechazo, estados terminales y control de versión | Servicio de notas de crédito y pruebas del flujo completo |
 | Sin autoaprobación y con rol aprobador distinto | El actor no puede ser el creador ni compartir su rol | Prueba `test_autoapproval_is_rejected_even_for_inconsistent_imported_data` |
