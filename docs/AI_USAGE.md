@@ -10,73 +10,89 @@ Este documento cumple la sección 5 del enunciado: registra los prompts principa
 - **Responsabilidad:** la selección final, revisión y defensa del código corresponden al candidato.
 - **Privacidad:** no se incluyeron contraseñas, cookies, tokens ni datos productivos en los prompts.
 
-Los textos siguientes conservan la intención de las solicitudes realizadas. Los prompts que agrupan varios mensajes breves se identifican expresamente como **consolidados**; no se pretende reconstruir cada interacción operativa.
+Los textos siguientes son versiones profesionales normalizadas a partir de las solicitudes realizadas durante el proyecto. Conservan su propósito y las decisiones que motivaron, pero no se presentan como transcripciones literales. Cuando una entrada reúne varios mensajes sucesivos, se identifica como **consolidada**.
 
 ## 2. Prompts principales utilizados
 
-### P-01 — Comprensión del enunciado
+### P-01 — Análisis integral del enunciado
 
-> “Vamos a trabajar con una prueba que tengo que realizar; entiende todo en el PDF para comenzar a trabajarlo.”
+**Tipo:** prompt profesional normalizado.
 
-**Por qué fue principal:** estableció que el PDF era la fuente de verdad y que debía separarse lo obligatorio de los datos opcionales.
+> Analiza íntegramente el PDF de la prueba técnica y los archivos de datos adjuntos. Identifica los requisitos obligatorios, las restricciones, los entregables y los criterios de evaluación. Distingue expresamente las instrucciones del enunciado de las decisiones de implementación y de los datos opcionales. Antes de desarrollar, entrega una matriz de trazabilidad que relacione cada requisito con la solución propuesta y su evidencia verificable.
 
-**Resultado:** se creó la matriz `docs/REQUIREMENTS_TRACEABILITY.md` para vincular cada requisito con código y evidencia.
+**Decisión que motivó:** utilizar el PDF como fuente de verdad y separar los requisitos obligatorios de las referencias opcionales.
 
-### P-02 — Selección del proceso profundo
+**Resultado verificable:** `docs/REQUIREMENTS_TRACEABILITY.md` vincula cada requisito con su implementación y evidencia.
 
-> “Arrancamos con la opción 2 de notas de crédito.”
+### P-02 — Definición del proceso de notas de crédito
 
-**Por qué fue principal:** definió el proceso de negocio que debía desarrollarse en profundidad.
+**Tipo:** prompt profesional normalizado.
 
-**Resultado:** se documentó la elección en `docs/DECISIONS.md` y se implementó la máquina de estados `PENDING → APPROVED | REJECTED`.
+> Desarrolla la opción 2, correspondiente al flujo de aprobación de notas de crédito. Define actores, permisos, datos de entrada, estados, transiciones permitidas, reglas de segregación de funciones y evidencia de auditoría. La propuesta debe impedir la autoaprobación, restringir las decisiones al alcance autorizado y conservar quién ejecutó cada acción y cuándo lo hizo.
 
-### P-03 — Solución completa del proceso (consolidado)
+**Decisión que motivó:** seleccionar el proceso que debía implementarse con mayor profundidad funcional y técnica.
 
-> “Continuar la opción 2 implementando una solución completa: modelo relacional normalizado, login real, roles y alcance departamental en backend, creación y decisión de notas, auditoría visible, seed, pruebas y documentación.”
+**Resultado verificable:** `docs/DECISIONS.md` documenta la elección y el sistema implementa `PENDING → APPROVED | REJECTED`.
 
-**Por qué fue principal:** reunió las decisiones estructurales derivadas de las solicitudes sucesivas de continuar el proyecto.
+### P-03 — Arquitectura e implementación completa
 
-**Resultado:** API FastAPI/SQLAlchemy/Alembic, SPA React/TypeScript/Vite, cuatro departamentos, 33 colaboradores, 25 notas adaptadas y módulos de Organización, Cargos y funciones, y Notas de crédito.
+**Tipo:** prompt profesional consolidado.
 
-### P-04 — Autorización y seguridad (consolidado)
+> Diseña e implementa una solución web completa para el proceso seleccionado. Utiliza un modelo relacional normalizado, una API con reglas de negocio en el backend y una interfaz construida con un framework moderno. Incluye autenticación real, autorización por rol y departamento, creación y decisión de solicitudes, auditoría visible, migraciones, carga inicial reproducible, pruebas automatizadas y documentación técnica. Prioriza una arquitectura mantenible y proporcional al alcance de la prueba.
 
-> “Revisar que el control de acceso no dependa del frontend: validar sesión, rol y departamento en cada operación sensible; impedir autoaprobación, falsificación del departamento y decisiones concurrentes.”
+**Decisión que motivó:** definir el alcance técnico y los componentes estructurales del proyecto.
 
-**Por qué fue principal:** determinó invariantes de seguridad y segregación de funciones.
+**Resultado verificable:** API FastAPI/SQLAlchemy/Alembic, SPA React/TypeScript/Vite, cuatro departamentos, 33 colaboradores, 25 notas adaptadas y tres módulos funcionales.
 
-**Resultado:** sesiones opacas en cookie `HttpOnly`, protección CSRF, consultas con alcance, departamento derivado de la sesión, respuesta `404` fuera del alcance y control optimista mediante `version`.
+### P-04 — Revisión de seguridad y autorización
 
-### P-05 — Bloqueo corporativo de npm
+**Tipo:** prompt profesional consolidado.
 
-> “`npm ping` devuelve `403 Forbidden` por política de seguridad. ¿Podemos continuar y qué debe solicitarse para habilitar el registro oficial?”
+> Audita la solución con enfoque de seguridad. Verifica que ninguna regla de autorización dependa exclusivamente del frontend y que el backend derive la identidad, el rol y el departamento desde la sesión autenticada. Cubre acceso fuera de alcance, falsificación de campos, autoaprobación, CSRF, expiración y revocación de sesiones, y decisiones concurrentes. Para cada control, agrega una prueba que demuestre tanto el caso permitido como el rechazo sin efectos secundarios.
 
-**Por qué fue principal:** obligó a decidir cómo continuar sin eludir controles corporativos.
+**Decisión que motivó:** establecer los invariantes de seguridad y segregación de funciones que debían protegerse en el servidor.
 
-**Resultado:** se avanzó en backend y documentación; no se desactivó TLS, no se usaron mirrors y no se fabricó el lockfile. Tras la habilitación oficial se ejecutaron instalación, typecheck, Vitest, build y auditoría.
+**Resultado verificable:** cookie `HttpOnly`, sesión opaca, CSRF, consultas con alcance, `404` para recursos ajenos y control optimista mediante `version`.
 
-### P-06 — Auditoría de requisitos
+### P-05 — Diagnóstico del bloqueo corporativo de npm
 
-> “En base al PDF, ¿qué nos faltaría por agregar?”
+**Tipo:** prompt profesional normalizado.
 
-**Por qué fue principal:** inició una revisión de brechas contra el enunciado.
+> Diagnostica el error `403 Forbidden` devuelto por `npm ping` contra `https://registry.npmjs.org/`. Determina si Node.js y npm están correctamente instalados, diferencia un problema local de una restricción corporativa y redacta la información necesaria para solicitar la habilitación oficial. No desactives TLS, no modifiques controles de seguridad y no utilices registros alternativos para eludir la política. Mientras se resuelve el acceso, identifica tareas verificables que puedan continuar sin instalar dependencias nuevas.
 
-**Resultado:** se reforzaron la justificación del stack, la transición visible de estados, el detalle organizacional, la trazabilidad y el checklist de entrega.
+**Decisión que motivó:** continuar el proyecto sin evadir las políticas de seguridad de la organización.
 
-### P-07 — Información útil en directorios
+**Resultado verificable:** se avanzó en backend y documentación; tras la habilitación oficial se ejecutaron instalación, typecheck, Vitest, build y auditoría con cero vulnerabilidades.
 
-> “Quiero que al ver el directorio de colaboradores y las notas de crédito se muestre más detalle, como saber quién hizo la solicitud o cualquier dato valioso que se pueda agregar.”
+### P-06 — Análisis de brechas contra el PDF
 
-**Por qué fue principal:** cambió los contratos de lectura y la presentación de auditoría.
+**Tipo:** prompt profesional normalizado.
 
-**Resultado:** la API y la interfaz muestran solicitante, usuario, correo, rol, departamento y actor de cada evento, sin ampliar el alcance permitido por el backend.
+> Compara el estado actual del repositorio con cada requisito del PDF. Clasifica las brechas por prioridad —obligatoria, alta o recomendada— e indica para cada una el archivo afectado, el cambio necesario y la forma de validarlo. No agregues funcionalidades ajenas al alcance como sustituto de requisitos pendientes. Actualiza la trazabilidad y el checklist únicamente cuando exista evidencia ejecutable.
 
-### P-08 — Identidad corporativa y solicitud dentro del portal (consolidado)
+**Decisión que motivó:** revisar de manera sistemática qué elementos faltaban antes de considerar completa la entrega.
 
-> “Quiero que salga Planificación Financiera y un mensaje más corporativo. La solicitud de notas de crédito debe estar dentro del portal, no en la portada.”
+**Resultado verificable:** se reforzaron la justificación del stack, las transiciones visibles, el detalle organizacional, la trazabilidad y `docs/DELIVERY_CHECKLIST.md`.
 
-**Por qué fue principal:** definió la experiencia de entrada y la ubicación correcta de la acción de negocio.
+### P-07 — Enriquecimiento de información y trazabilidad visible
 
-**Resultado:** la portada quedó como acceso corporativo de Planificación Financiera; la creación solo aparece dentro del portal autenticado y únicamente para colaboradores.
+**Tipo:** prompt profesional normalizado.
+
+> Mejora las vistas del directorio de colaboradores y de notas de crédito con información útil para operación y auditoría. En las solicitudes incluye como mínimo quién la creó, usuario, departamento, estado y fechas; en el historial muestra actor, transición y comentario. En el directorio agrega cargo, seniority, correo, país, fecha de ingreso, estado y rol cuando corresponda. Conserva los filtros de alcance del backend y evita exponer información fuera de los permisos de la sesión.
+
+**Decisión que motivó:** ampliar los contratos de lectura sin comprometer la separación de datos por usuario o departamento.
+
+**Resultado verificable:** la API y la interfaz presentan solicitante, usuario, correo, rol, departamento y actor de eventos dentro del alcance autorizado.
+
+### P-08 — Experiencia corporativa y ubicación de la solicitud
+
+**Tipo:** prompt profesional consolidado.
+
+> Ajusta la experiencia visual a la identidad corporativa suministrada. La portada debe identificar a Planificación Financiera, utilizar un mensaje institucional y funcionar únicamente como acceso al portal. Retira de la portada pública cualquier llamado directo para solicitar notas de crédito. Mantén la creación dentro del portal autenticado, visible solo para el rol Colaborador, y conserva en el backend todas las validaciones de identidad, rol y departamento.
+
+**Decisión que motivó:** definir la comunicación institucional de la portada y ubicar la acción de negocio dentro del entorno autenticado.
+
+**Resultado verificable:** `LoginPage.tsx` contiene el acceso corporativo; `Layout.tsx` y `DashboardPage.tsx` exponen la solicitud dentro del portal solo a colaboradores.
 
 ## 3. Sugerencias aceptadas, modificadas y rechazadas
 
