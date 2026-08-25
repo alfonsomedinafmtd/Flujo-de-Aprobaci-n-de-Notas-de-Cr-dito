@@ -36,6 +36,8 @@ Comando de comprobación:
 - [x] `npm test` sin errores.
 - [x] `npm run build` genera `frontend/dist`.
 - [x] `npm audit` sin vulnerabilidades conocidas.
+- [x] Historial visual con actor, fecha y transición explícita de estado.
+- [x] Organización muestra departamentos y detalle completo de colaboradores según el alcance del rol.
 - [ ] Recorrido manual en navegador con Colaborador, Jefe y Administrador.
 - [ ] Diseño revisado en escritorio y vista móvil.
 
@@ -63,10 +65,10 @@ Ejecutar primero la auditoría de solo lectura:
 .\scripts\delivery-audit.ps1
 ```
 
-- [ ] Sustituir la identidad temporal `Candidato <candidato@example.invalid>` por la identidad del candidato.
-- [ ] Definir si se corregirá la autoría de los commits existentes antes de publicar.
-- [ ] Crear el repositorio remoto solicitado por el evaluador.
-- [ ] Configurar `origin` y subir la rama `main`.
+- [x] Sustituir la identidad temporal por `Alfonso Medina <alfonso.medina@farmatodo.com>`.
+- [x] Corregir la autoría de los commits existentes antes de publicar.
+- [x] Crear el repositorio remoto solicitado por el evaluador.
+- [x] Configurar `origin` y subir la rama `main`.
 - [ ] Abrir el repositorio desde otra sesión o equipo y comprobar que puede clonarse.
 - [ ] Confirmar el formato de entrega: enlace, ZIP o ambos.
 

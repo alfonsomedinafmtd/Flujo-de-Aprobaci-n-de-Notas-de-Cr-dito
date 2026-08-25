@@ -5,9 +5,15 @@ import { ApiError, apiRequest } from '../api'
 import { useAuth } from '../auth/AuthContext'
 import { ErrorMessage, Loading } from '../components/Feedback'
 import { StatusBadge } from '../components/StatusBadge'
-import type { CreditNote } from '../types'
+import type { CreditNote, CreditNoteStatus } from '../types'
 import { formatDate, formatMoney } from '../utils/format'
 import { canDecideCreditNote, roleLabel } from '../utils/permissions'
+
+const statusLabels: Record<CreditNoteStatus, string> = {
+  PENDING: 'Pendiente',
+  APPROVED: 'Aprobada',
+  REJECTED: 'Rechazada',
+}
 
 export function CreditNoteDetailPage() {
   const { noteId } = useParams()
@@ -52,7 +58,7 @@ export function CreditNoteDetailPage() {
     <div className="page">
       <Link className="back-link" to="/credit-notes">← Volver a solicitudes</Link>
       <header className="page-header detail-header">
-        <div><span className="eyebrow">Solicitud NC-{String(note.id).padStart(4, '0')}</span><h1>{note.reason}</h1><p>Creada por {note.creator_username} · {formatDate(note.created_at)}</p></div>
+        <div><span className="eyebrow">Solicitud NC-{String(note.id).padStart(4, '0')}</span><h1>{note.reason}</h1><p>Creada por {note.creator_full_name} (@{note.creator_username}) · {formatDate(note.created_at)}</p></div>
         <StatusBadge status={note.status} />
       </header>
       {error && <ErrorMessage message={error} />}
@@ -62,6 +68,8 @@ export function CreditNoteDetailPage() {
           <span>Monto</span><strong>{formatMoney(note.amount, note.currency)}</strong>
         </article>
         <article className="detail-card"><span>Departamento</span><strong>{note.requesting_department.name}</strong></article>
+        <article className="detail-card"><span>Solicitante</span><strong>{note.creator_full_name}</strong><small className="cell-detail">{note.creator_internal_email} · {roleLabel(note.creator_role)}</small></article>
+        <article className="detail-card"><span>Última actualización</span><strong>{formatDate(note.updated_at)}</strong></article>
         <article className="detail-card"><span>Tienda</span><strong>{note.store.name}</strong></article>
         <article className="detail-card"><span>Compañía</span><strong>{note.company.name}</strong></article>
       </section>
@@ -85,8 +93,13 @@ export function CreditNoteDetailPage() {
               <span className="timeline-dot" aria-hidden="true" />
               <div className="timeline-content">
                 <div><strong>{event.action === 'CREATED' ? 'Solicitud creada' : event.action === 'APPROVED' ? 'Solicitud aprobada' : 'Solicitud rechazada'}</strong><time>{formatDate(event.occurred_at)}</time></div>
-                <p>{event.comment ?? 'Sin comentario'}</p>
-                <small>{event.actor_username} · {roleLabel(event.actor_role)}</small>
+                <p className="timeline-transition">
+                  {event.previous_status ? statusLabels[event.previous_status] : 'Sin estado'}
+                  {' → '}
+                  {statusLabels[event.new_status]}
+                </p>
+                <p className="timeline-comment">{event.comment ?? 'Sin comentario'}</p>
+                <small>{event.actor_full_name} · @{event.actor_username} · {roleLabel(event.actor_role)}</small>
               </div>
             </li>
           ))}

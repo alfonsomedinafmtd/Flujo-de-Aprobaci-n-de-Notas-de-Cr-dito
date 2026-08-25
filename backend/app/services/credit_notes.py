@@ -17,10 +17,12 @@ from app.schemas import CreditNoteCreate, CreditNoteDecision
 def _note_options():
     return (
         joinedload(CreditNote.requesting_department),
-        joinedload(CreditNote.creator),
+        joinedload(CreditNote.creator).joinedload(UserAccount.employee),
         joinedload(CreditNote.store),
         joinedload(CreditNote.company),
-        selectinload(CreditNote.events).joinedload(CreditNoteEvent.actor),
+        selectinload(CreditNote.events)
+        .joinedload(CreditNoteEvent.actor)
+        .joinedload(UserAccount.employee),
     )
 
 

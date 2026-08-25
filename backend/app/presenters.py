@@ -38,13 +38,20 @@ def present_employee_directory(employee: Employee) -> EmployeeDirectoryRead:
     )
 
 
+def employee_full_name(employee: Employee) -> str:
+    return f"{employee.first_name} {employee.last_name}"
+
+
 def present_employee_detail(employee: Employee) -> EmployeeDetailRead:
     directory = present_employee_directory(employee)
+    account = employee.user_account
     return EmployeeDetailRead(
         **directory.model_dump(),
         country=employee.country,
         hire_date=employee.hire_date,
         internal_email=employee.internal_email,
+        username=account.username if account else None,
+        portal_role=account.role if account else None,
     )
 
 
@@ -69,6 +76,9 @@ def present_credit_note(note: CreditNote) -> CreditNoteRead:
         requesting_department=DepartmentRead.model_validate(note.requesting_department),
         creator_id=note.creator.id,
         creator_username=note.creator.username,
+        creator_full_name=employee_full_name(note.creator.employee),
+        creator_internal_email=note.creator.employee.internal_email,
+        creator_role=note.creator.role,
         store=CatalogItemRead(id=note.store.id, name=note.store.name),
         company=CatalogItemRead(id=note.company.id, name=note.company.name),
         created_at=note.created_at,
@@ -82,10 +92,10 @@ def present_credit_note(note: CreditNote) -> CreditNoteRead:
                 comment=event.comment,
                 actor_id=event.actor.id,
                 actor_username=event.actor.username,
+                actor_full_name=employee_full_name(event.actor.employee),
                 actor_role=event.actor.role,
                 occurred_at=event.occurred_at,
             )
             for event in note.events
         ],
     )
-

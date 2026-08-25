@@ -14,3 +14,9 @@ export function formatDate(value: string): string {
   }).format(new Date(normalized))
 }
 
+export function formatCalendarDate(value: string): string {
+  return new Intl.DateTimeFormat('es-VE', {
+    dateStyle: 'medium',
+    timeZone: 'UTC',
+  }).format(new Date(`${value}T00:00:00Z`))
+}

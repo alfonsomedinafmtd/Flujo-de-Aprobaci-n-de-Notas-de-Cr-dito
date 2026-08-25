@@ -26,6 +26,16 @@ Se usará un monolito modular con una API FastAPI, una aplicación React y una b
 
 Los módulos del backend serán autenticación, organización y notas de crédito. Las reglas de autorización vivirán en dependencias y servicios del backend, no únicamente en la interfaz.
 
+La selección concreta del stack responde a estas razones:
+
+- **FastAPI y Pydantic:** permiten expresar contratos y validaciones con tipos de Python, reutilizar dependencias para autenticación y autorización, y generar documentación OpenAPI verificable sin mantener una especificación separada.
+- **SQLAlchemy y Alembic:** separan las reglas del dominio del motor de base de datos y proporcionan migraciones reproducibles para crear y evolucionar el esquema relacional.
+- **React:** cumple el requisito de usar un framework y encaja con una SPA pequeña basada en vistas y componentes reutilizables. Para este alcance ofrece menos estructura accidental que un framework más amplio y mantiene explícito el consumo de la API.
+- **TypeScript:** hace visibles en compilación los contratos de usuarios, permisos, notas y eventos, reduciendo errores entre las respuestas de la API y la interfaz.
+- **Vite:** aporta un servidor de desarrollo y un build de producción simples y rápidos, sin añadir configuración de empaquetado que no aporta valor al caso evaluado.
+
+El objetivo no es elegir cada herramienta por popularidad, sino mantener una solución que una sola persona pueda levantar, explicar, probar y modificar durante la evaluación.
+
 ## ADR-004: SQLite inicial y portabilidad a PostgreSQL
 
 **Estado:** aceptada con limitación conocida.

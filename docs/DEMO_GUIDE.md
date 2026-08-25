@@ -44,10 +44,10 @@ El script solicita de forma segura las credenciales de un colaborador y de un je
 
 1. Iniciar sesión con un colaborador de Cuentas por Cobrar.
 2. Mostrar que el dashboard resume solo sus solicitudes.
-3. Abrir Organización y Cargos y funciones para enseñar los módulos de consulta.
+3. Abrir Organización para mostrar su perfil completo y el único departamento permitido; después, recorrer Cargos y funciones.
 4. Entrar en Notas de crédito y crear una solicitud.
 5. Resaltar que el formulario no permite seleccionar departamento: la API lo deriva de la sesión.
-6. Abrir el detalle y señalar el primer evento de auditoría con usuario y fecha.
+6. Abrir el detalle y señalar el primer evento de auditoría con usuario, fecha y transición `Sin estado → Pendiente`.
 
 ### 2. Jefe de departamento
 
@@ -55,14 +55,14 @@ El script solicita de forma segura las credenciales de un colaborador y de un je
 2. Mostrar el resumen departamental y filtrar las solicitudes pendientes.
 3. Abrir la solicitud recién creada.
 4. Aprobarla o rechazarla; para demostrar la validación, intentar primero rechazar sin comentario.
-5. Mostrar la transición final y el segundo evento de auditoría.
+5. Mostrar la transición `Pendiente → Aprobada/Rechazada` y el segundo evento de auditoría.
 6. Explicar que una solicitud resuelta es terminal y ya no presenta acciones de decisión.
 
 ### 3. Administrador
 
 1. Ingresar como administrador.
 2. Mostrar que el dashboard y el listado tienen alcance global.
-3. Recorrer la organización completa y los cargos de todos los departamentos.
+3. Recorrer todos los departamentos y comprobar que el detalle incluye país, fecha de ingreso, correo ficticio, usuario, rol del portal, cargo y estado.
 4. Explicar que el administrador puede decidir globalmente, pero no crear solicitudes ni autoaprobar.
 
 ## Evidencias técnicas para mencionar

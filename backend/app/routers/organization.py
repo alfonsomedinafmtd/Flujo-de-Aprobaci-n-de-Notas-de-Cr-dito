@@ -57,7 +57,10 @@ def directory(
     statement = (
         select(Employee)
         .join(Employee.position)
-        .options(joinedload(Employee.position).joinedload(Position.department))
+        .options(
+            joinedload(Employee.position).joinedload(Position.department),
+            joinedload(Employee.user_account),
+        )
         .order_by(Employee.last_name, Employee.first_name)
     )
     if scoped_department_id is not None:
@@ -79,7 +82,10 @@ def employees(
     statement = (
         select(Employee)
         .join(Employee.position)
-        .options(joinedload(Employee.position).joinedload(Position.department))
+        .options(
+            joinedload(Employee.position).joinedload(Position.department),
+            joinedload(Employee.user_account),
+        )
         .order_by(Employee.last_name, Employee.first_name)
     )
     if scoped_department_id is not None:

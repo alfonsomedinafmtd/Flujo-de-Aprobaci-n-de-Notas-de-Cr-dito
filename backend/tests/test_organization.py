@@ -23,3 +23,14 @@ def test_admin_can_view_all_departments(test_context) -> None:
     assert departments.status_code == 200
     assert {item["code"] for item in departments.json()} == {"A", "B"}
 
+
+def test_employee_detail_exposes_fictitious_contact_and_portal_role(test_context) -> None:
+    client, _ = test_context
+    login(client, "collab.a")
+
+    profile = client.get("/api/organization/profile")
+
+    assert profile.status_code == 200
+    assert profile.json()["internal_email"] == "test1@example.invalid"
+    assert profile.json()["username"] == "collab.a"
+    assert profile.json()["portal_role"] == "COLLABORATOR"

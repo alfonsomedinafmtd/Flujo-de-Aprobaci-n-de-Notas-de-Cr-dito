@@ -134,4 +134,4 @@ Con la API iniciada, el flujo completo también puede demostrarse desde PowerShe
 
 La solución incluye autenticación por sesión, protección CSRF, consultas de la estructura organizacional, migraciones, seed, el flujo completo de notas de crédito y una interfaz React adaptada a los permisos de cada rol.
 
-Las 26 pruebas automatizadas del backend cubren autenticación, aislamiento por departamento, segregación de funciones, transiciones de estado, auditoría, validaciones y configuración segura. El frontend superó typecheck, 2 pruebas Vitest y el build de producción; la auditoría npm reportó cero vulnerabilidades.
+Las 27 pruebas automatizadas del backend cubren autenticación, aislamiento por departamento, segregación de funciones, transiciones de estado, auditoría, datos visibles de solicitantes y colaboradores, validaciones y configuración segura. El frontend superó typecheck, 2 pruebas Vitest y el build de producción; la auditoría npm reportó cero vulnerabilidades.

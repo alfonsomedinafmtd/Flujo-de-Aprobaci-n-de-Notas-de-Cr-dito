@@ -79,6 +79,8 @@ class EmployeeDetailRead(EmployeeDirectoryRead):
     country: str
     hire_date: date
     internal_email: str
+    username: str | None
+    portal_role: UserRole | None
 
 
 class CatalogItemRead(BaseModel):
@@ -126,6 +128,7 @@ class CreditNoteEventRead(BaseModel):
     comment: str | None
     actor_id: int
     actor_username: str
+    actor_full_name: str
     actor_role: UserRole
     occurred_at: datetime
 
@@ -140,6 +143,9 @@ class CreditNoteRead(BaseModel):
     requesting_department: DepartmentRead
     creator_id: int
     creator_username: str
+    creator_full_name: str
+    creator_internal_email: str
+    creator_role: UserRole
     store: CatalogItemRead
     company: CatalogItemRead
     created_at: datetime

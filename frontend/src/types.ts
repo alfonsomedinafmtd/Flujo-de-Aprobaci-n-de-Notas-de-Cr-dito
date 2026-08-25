@@ -51,6 +51,8 @@ export interface EmployeeDetail extends EmployeeDirectoryItem {
   country: string
   hire_date: string
   internal_email: string
+  username: string | null
+  portal_role: UserRole | null
 }
 
 export interface CatalogItem {
@@ -66,6 +68,7 @@ export interface CreditNoteEvent {
   comment: string | null
   actor_id: number
   actor_username: string
+  actor_full_name: string
   actor_role: UserRole
   occurred_at: string
 }
@@ -80,6 +83,9 @@ export interface CreditNote {
   requesting_department: Department
   creator_id: number
   creator_username: string
+  creator_full_name: string
+  creator_internal_email: string
+  creator_role: UserRole
   store: CatalogItem
   company: CatalogItem
   created_at: string

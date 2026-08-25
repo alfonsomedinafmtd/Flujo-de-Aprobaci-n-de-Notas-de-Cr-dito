@@ -110,7 +110,7 @@ $departments = Invoke-RestMethod `
 
 ### Perfil organizacional
 
-`GET /organization/profile` devuelve los datos laborales del usuario autenticado:
+`GET /organization/profile` devuelve los datos laborales del usuario autenticado, incluido su correo ficticio, fecha de ingreso, usuario y rol del portal:
 
 ```powershell
 $profile = Invoke-RestMethod `
@@ -141,7 +141,7 @@ $directory = Invoke-RestMethod `
 
 ### Empleados con detalle
 
-`GET /organization/employees` está permitido para administradores y jefes de departamento. El rol colaborador recibe `403 Forbidden`.
+`GET /organization/employees` está permitido para administradores y jefes de departamento. Incluye contacto ficticio, fecha de ingreso, estado, usuario y rol del portal de cada colaborador dentro del alcance autorizado. El rol colaborador recibe `403 Forbidden`.
 
 ```powershell
 $employees = Invoke-RestMethod `
@@ -259,7 +259,7 @@ La nota se crea con estado `PENDING`, versión `1` y un primer evento de auditor
 
 ### Consultar el detalle y el historial
 
-`GET /credit-notes/{note_id}` devuelve la nota y su arreglo `events`, que constituye el historial de creación y decisión:
+`GET /credit-notes/{note_id}` devuelve la nota, el nombre completo, usuario, correo y rol del solicitante, además de su arreglo `events`. Cada evento identifica con nombre, usuario y rol a la persona que actuó y constituye el historial de creación y decisión:
 
 ```powershell
 $note = Invoke-RestMethod `

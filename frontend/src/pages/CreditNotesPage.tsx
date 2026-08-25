@@ -7,7 +7,7 @@ import { EmptyState, ErrorMessage, Loading } from '../components/Feedback'
 import { StatusBadge } from '../components/StatusBadge'
 import type { CreditNote, CreditNoteList, CreditNoteStatus } from '../types'
 import { formatDate, formatMoney } from '../utils/format'
-import { canCreateCreditNote } from '../utils/permissions'
+import { canCreateCreditNote, roleLabel } from '../utils/permissions'
 
 type Filter = 'ALL' | CreditNoteStatus
 const PAGE_SIZE = 10
@@ -71,11 +71,18 @@ export function CreditNotesPage() {
       {!loading && !error && notes.length > 0 && (
         <div className="table-card">
           <table>
-            <thead><tr><th>Solicitud</th><th>Creada</th><th>Departamento</th><th>Monto</th><th>Estado</th><th></th></tr></thead>
+            <thead><tr><th>Solicitud</th><th>Solicitante</th><th>Creada</th><th>Departamento</th><th>Monto</th><th>Estado</th><th></th></tr></thead>
             <tbody>
               {notes.map((note) => (
                 <tr key={note.id}>
-                  <td><strong>NC-{String(note.id).padStart(4, '0')}</strong><small className="cell-detail">{note.company.name}</small></td>
+                  <td className="cell-summary">
+                    <strong>NC-{String(note.id).padStart(4, '0')} · {note.reason}</strong>
+                    <small className="cell-detail">{note.store.name} · {note.company.name}</small>
+                  </td>
+                  <td>
+                    <strong>{note.creator_full_name}</strong>
+                    <small className="cell-detail">@{note.creator_username} · {roleLabel(note.creator_role)}</small>
+                  </td>
                   <td>{formatDate(note.created_at)}</td>
                   <td>{note.requesting_department.name}</td>
                   <td>{formatMoney(note.amount, note.currency)}</td>

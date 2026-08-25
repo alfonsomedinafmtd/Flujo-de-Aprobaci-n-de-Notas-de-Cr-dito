@@ -30,6 +30,10 @@ def test_complete_approval_flow_records_actor_and_history(test_context) -> None:
     assert created_note["status"] == "PENDING"
     assert created_note["requesting_department"]["code"] == "A"
     assert created_note["creator_username"] == "collab.a"
+    assert created_note["creator_full_name"] == "Persona Prueba 1"
+    assert created_note["creator_internal_email"] == "test1@example.invalid"
+    assert created_note["creator_role"] == "COLLABORATOR"
+    assert created_note["events"][0]["actor_full_name"] == "Persona Prueba 1"
     assert len(created_note["events"]) == 1
 
     head_csrf = login(client, "head.a")
@@ -45,6 +49,7 @@ def test_complete_approval_flow_records_actor_and_history(test_context) -> None:
     assert approved_note["version"] == 2
     assert len(approved_note["events"]) == 2
     assert approved_note["events"][1]["actor_username"] == "head.a"
+    assert approved_note["events"][1]["actor_full_name"] == "Persona Prueba 2"
     assert approved_note["events"][1]["previous_status"] == "PENDING"
 
     repeated = client.post(
