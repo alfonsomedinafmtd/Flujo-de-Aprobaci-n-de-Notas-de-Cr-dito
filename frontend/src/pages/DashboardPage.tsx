@@ -24,6 +24,8 @@ export function DashboardPage() {
 
   if (!user) return null
 
+  const canCreate = canCreateCreditNote(user.role)
+
   return (
     <div className="page">
       <header className="page-header hero-header">
@@ -65,14 +67,14 @@ export function DashboardPage() {
           <p>Revisa seniority, responsabilidades y pertenencia departamental.</p>
           <span className="card-link">Ver catálogo →</span>
         </Link>
-        <Link className="module-card module-card-accent" to="/credit-notes">
+        <Link className="module-card module-card-accent" to={canCreate ? '/credit-notes/new' : '/credit-notes'}>
           <span className="module-number">03</span>
-          <h2>Notas de crédito</h2>
+          <h2>{canCreate ? 'Solicitud de nota de crédito' : 'Notas de crédito'}</h2>
           <p>
-            {canCreateCreditNote(user.role) && 'Crea solicitudes y consulta su trazabilidad.'}
+            {canCreate && 'Registra una solicitud para tu departamento; el proceso conservará su trazabilidad.'}
             {canDecideCreditNote(user.role) && 'Revisa solicitudes pendientes y registra decisiones auditables.'}
           </p>
-          <span className="card-link">Gestionar solicitudes →</span>
+          <span className="card-link">{canCreate ? 'Crear solicitud →' : 'Gestionar solicitudes →'}</span>
         </Link>
       </section>
 

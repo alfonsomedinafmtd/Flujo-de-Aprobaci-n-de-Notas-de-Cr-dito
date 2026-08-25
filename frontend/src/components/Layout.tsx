@@ -2,18 +2,21 @@ import { NavLink, Outlet } from 'react-router-dom'
 
 import farmatodoLogo from '../assets/logo-farmatodo.svg'
 import { useAuth } from '../auth/AuthContext'
-import { roleLabel } from '../utils/permissions'
-
-const navigation = [
-  { to: '/', label: 'Inicio', end: true },
-  { to: '/organization', label: 'Organización' },
-  { to: '/positions', label: 'Cargos y funciones' },
-  { to: '/credit-notes', label: 'Notas de crédito' },
-]
+import { canCreateCreditNote, roleLabel } from '../utils/permissions'
 
 export function Layout() {
   const { user, logout } = useAuth()
   if (!user) return null
+
+  const navigation = [
+    { to: '/', label: 'Inicio', end: true },
+    { to: '/organization', label: 'Organización', end: true },
+    { to: '/positions', label: 'Cargos y funciones', end: true },
+    { to: '/credit-notes', label: 'Notas de crédito', end: true },
+    ...(canCreateCreditNote(user.role)
+      ? [{ to: '/credit-notes/new', label: 'Solicitar nota de crédito', end: true }]
+      : []),
+  ]
 
   return (
     <div className="app-shell">
