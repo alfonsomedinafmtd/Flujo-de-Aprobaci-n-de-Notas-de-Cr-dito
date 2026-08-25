@@ -81,7 +81,7 @@ export function CreditNotesPage() {
                   </td>
                   <td>
                     <strong>{note.creator_full_name}</strong>
-                    <small className="cell-detail">@{note.creator_username} · {roleLabel(note.creator_role)}</small>
+                    <small className="cell-detail">@{note.creator_username} · {note.requester_position_title}</small>
                   </td>
                   <td>{formatDate(note.created_at)}</td>
                   <td>{note.requesting_department.name}</td>

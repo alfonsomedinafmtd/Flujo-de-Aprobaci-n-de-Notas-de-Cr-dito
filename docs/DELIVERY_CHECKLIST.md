@@ -12,14 +12,16 @@ Usar esta lista antes de compartir el repositorio o generar un archivo ZIP.
 - [x] Segregación de funciones, alcance departamental y prohibición de autoaprobación.
 - [x] Auditoría con actor, transición, comentario y fecha.
 - [x] Filtros, paginación y resumen de estados según el alcance autenticado.
+- [x] Analítica por área, cargo y solicitante visible únicamente para Administrador.
 
 ## Datos y backend
 
-- [x] Migración inicial de Alembic aplicada y sincronizada con los modelos.
+- [x] Migraciones de Alembic aplicadas y sincronizadas con los modelos.
 - [x] Seed reproducible e idempotente.
 - [x] Cuatro departamentos, 33 colaboradores y 25 notas verificados automáticamente.
 - [x] Pruebas automatizadas del backend aprobadas.
 - [x] OpenAPI y endpoint de salud comprobados con un servidor real.
+- [x] Endpoint analítico probado con sesión administrativa y rechazo de otros roles.
 
 Comando de comprobación:
 
@@ -38,6 +40,7 @@ Comando de comprobación:
 - [x] `npm audit` sin vulnerabilidades conocidas.
 - [x] Historial visual con actor, fecha y transición explícita de estado.
 - [x] Organización muestra departamentos y detalle completo de colaboradores según el alcance del rol.
+- [x] Analítica adaptable con filtros, métricas, tendencia y pendientes antiguas.
 - [ ] Recorrido manual en navegador con Colaborador, Jefe y Administrador.
 - [ ] Diseño revisado en escritorio y vista móvil.
 

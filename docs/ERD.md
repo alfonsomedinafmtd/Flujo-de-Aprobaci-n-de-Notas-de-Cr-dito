@@ -65,6 +65,7 @@ erDiagram
         string reason
         int requesting_department_id FK
         int created_by_user_id FK
+        string requester_position_title
         int store_id FK
         int company_id FK
         string status
@@ -84,5 +85,4 @@ erDiagram
     }
 ```
 
-El departamento del colaborador se obtiene por `employee → position → department`, evitando duplicarlo en varias tablas. La nota conserva su departamento solicitante como dato histórico aunque el colaborador cambie de cargo después.
-
+El departamento del colaborador se obtiene por `employee → position → department`, evitando duplicarlo en varias tablas. La nota conserva su departamento solicitante y el título del cargo como instantáneas históricas; así, un cambio organizacional posterior no modifica retrospectivamente la analítica de la solicitud.

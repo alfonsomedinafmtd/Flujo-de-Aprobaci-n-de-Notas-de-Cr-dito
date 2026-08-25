@@ -13,6 +13,7 @@ El botón crea un entorno temporal en GitHub, instala el proyecto y abre el port
 - Creación, aprobación y rechazo de notas de crédito con segregación de funciones.
 - Autenticación mediante sesión y autorización por rol y departamento en el backend.
 - Historial inmutable de cada cambio de estado.
+- Analítica administrativa por área, cargo, solicitante, período y estado.
 
 ## Stack decidido
 
@@ -161,6 +162,6 @@ Con la API iniciada, el flujo completo también puede demostrarse desde PowerShe
 
 ## Estado de la entrega
 
-La solución incluye autenticación por sesión, protección CSRF, consultas de la estructura organizacional, migraciones, seed, el flujo completo de notas de crédito y una interfaz React adaptada a los permisos de cada rol.
+La solución incluye autenticación por sesión, protección CSRF, consultas de la estructura organizacional, migraciones, seed, el flujo completo de notas de crédito, analítica exclusiva para administradores y una interfaz React adaptada a los permisos de cada rol.
 
-Las 27 pruebas automatizadas del backend cubren autenticación, aislamiento por departamento, segregación de funciones, transiciones de estado, auditoría, datos visibles de solicitantes y colaboradores, validaciones y configuración segura. El frontend superó typecheck, 2 pruebas Vitest y el build de producción; la auditoría npm reportó cero vulnerabilidades.
+Las 29 pruebas automatizadas del backend cubren autenticación, aislamiento por departamento, segregación de funciones, transiciones de estado, auditoría, analítica administrativa, filtros, datos visibles, validaciones y configuración segura. El frontend superó typecheck, 3 pruebas Vitest y el build de producción; la auditoría npm reportó cero vulnerabilidades.

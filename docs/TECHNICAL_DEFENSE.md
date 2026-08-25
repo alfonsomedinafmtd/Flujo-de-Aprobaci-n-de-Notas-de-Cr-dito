@@ -4,7 +4,7 @@ Este documento reúne respuestas breves para explicar y defender la solución. C
 
 ## Resumen de un minuto
 
-> Construí un portal interno de Finanzas con una SPA React y una API FastAPI sobre una base relacional. Elegí un monolito modular porque el alcance no justifica la complejidad operativa de microservicios. El caso profundo es el flujo de notas de crédito: un colaborador crea la solicitud, un jefe de su departamento o un administrador la decide, y el backend impide la autoaprobación. Cada transición genera un evento con actor y fecha dentro de la misma transacción. La autorización combina rol y alcance departamental, la sesión es opaca y revocable en una cookie `HttpOnly`, y las mutaciones sensibles requieren CSRF. SQLite facilita la evaluación local; para producción migraría a PostgreSQL. El backend tiene 27 pruebas automatizadas aprobadas y migraciones sincronizadas.
+> Construí un portal interno de Finanzas con una SPA React y una API FastAPI sobre una base relacional. Elegí un monolito modular porque el alcance no justifica la complejidad operativa de microservicios. El caso profundo es el flujo de notas de crédito: un colaborador crea la solicitud, un jefe de su departamento o un administrador la decide, y el backend impide la autoaprobación. Cada transición genera un evento con actor y fecha dentro de la misma transacción. La autorización combina rol y alcance departamental, la sesión es opaca y revocable en una cookie `HttpOnly`, y las mutaciones sensibles requieren CSRF. El administrador dispone además de una vista analítica protegida. SQLite facilita la evaluación local; para producción migraría a PostgreSQL. El backend tiene 29 pruebas automatizadas aprobadas y migraciones sincronizadas.
 
 ## Arquitectura
 
@@ -188,15 +188,33 @@ El README de los datos omitía identificar solicitante y aprobador, pero el PDF 
 
 No. Es una carga reproducible para demostración y pruebas. Si detecta departamentos existentes, no vuelve a insertarlos. Esa protección evita duplicados en el escenario previsto, pero no pretende reparar una carga parcial; en producción usaría migraciones de datos o un proceso de importación transaccional con claves naturales y reportes de errores.
 
+## Analítica administrativa
+
+### ¿Por qué la analítica está disponible solo para el administrador?
+
+Consolida actividad de todos los departamentos y personas. Esa visibilidad excede el alcance de un jefe o colaborador, por lo que la API exige `ADMIN`; ocultar la pestaña en React es únicamente una mejora de experiencia.
+
+### ¿Por qué no sumas USD y VES en un único monto?
+
+Sin una tasa de conversión, fecha de valoración y fuente cambiaria definidas, el total combinado sería engañoso. La API mantiene cada moneda separada y calcula su total y promedio de manera independiente.
+
+### ¿Cómo evitas que un cambio de cargo altere el reporte histórico?
+
+La nota conserva `requester_position_title` al momento de creación. El modelo organizacional continúa normalizado, pero esa instantánea deliberada representa el contexto histórico de la transacción.
+
+### ¿Escalaría el cálculo actual a millones de notas?
+
+No sin optimización. Los filtros ya se aplican en base de datos, pero las agrupaciones del volumen evaluado se completan en el servicio. Para mayor escala usaría agregaciones SQL, índices compuestos, vistas materializadas o un almacén analítico, además de caché y paginación donde corresponda.
+
 ## Estrategia de pruebas
 
 ### ¿Qué está automatizado?
 
-El backend tiene 27 pruebas aprobadas. Cubren login y atributos de cookie, errores genéricos, cuentas inactivas, expiración y revocación de sesiones, rotación CSRF, permisos y aislamiento por departamento, creación y decisiones, datos visibles de solicitantes y colaboradores, normalización de entradas, catálogos inactivos o inexistentes, precisión monetaria, límites de comentarios, no autoaprobación, auditoría, versión obsoleta, filtros, paginación, resumen, configuración segura y seed idempotente. `alembic check` confirma que modelos y migraciones están sincronizados.
+El backend tiene 29 pruebas aprobadas. Cubren login y atributos de cookie, errores genéricos, cuentas inactivas, expiración y revocación de sesiones, rotación CSRF, permisos y aislamiento por departamento, creación y decisiones, datos visibles, normalización de entradas, catálogos, precisión monetaria, no autoaprobación, auditoría, versión obsoleta, filtros, paginación, resumen, analítica exclusiva, monedas separadas, cargo histórico, configuración segura y seed idempotente. `alembic check` confirma que modelos y migraciones están sincronizados.
 
 ### ¿Qué falta verificar?
 
-El frontend superó `typecheck`, 2 pruebas Vitest y el build de producción con Vite. El lockfile quedó generado y `npm audit` reportó cero vulnerabilidades. El verificador integral ejecuta estas comprobaciones después de las 27 pruebas backend y `alembic check`.
+El frontend superó `typecheck`, 3 pruebas Vitest y el build de producción con Vite. El lockfile quedó generado y `npm audit` reportó cero vulnerabilidades. El verificador integral ejecuta estas comprobaciones después de las 29 pruebas backend y `alembic check`.
 
 ### ¿Qué pruebas añadirías después?
 

@@ -146,6 +146,7 @@ class CreditNoteRead(BaseModel):
     creator_full_name: str
     creator_internal_email: str
     creator_role: UserRole
+    requester_position_title: str
     store: CatalogItemRead
     company: CatalogItemRead
     created_at: datetime
@@ -170,3 +171,63 @@ class CreditNoteSummaryRead(BaseModel):
 class CreditNoteCatalogRead(BaseModel):
     stores: list[CatalogItemRead]
     companies: list[CatalogItemRead]
+
+
+class CreditNoteAnalyticsCountsRead(BaseModel):
+    total: int
+    pending: int
+    approved: int
+    rejected: int
+
+
+class CreditNoteAnalyticsSummaryRead(CreditNoteAnalyticsCountsRead):
+    approval_rate: float
+    rejection_rate: float
+    average_resolution_hours: float | None
+
+
+class CreditNoteAnalyticsAmountRead(BaseModel):
+    currency: Currency
+    total_amount: Decimal
+    average_amount: Decimal
+
+
+class CreditNoteAnalyticsGroupRead(CreditNoteAnalyticsCountsRead):
+    key: str
+    label: str
+    amounts: list[CreditNoteAnalyticsAmountRead]
+
+
+class CreditNoteAnalyticsRequesterRead(CreditNoteAnalyticsCountsRead):
+    user_id: int
+    username: str
+    full_name: str
+    department_name: str
+    position_title: str
+    amounts: list[CreditNoteAnalyticsAmountRead]
+
+
+class CreditNoteAnalyticsTrendRead(CreditNoteAnalyticsCountsRead):
+    period: str
+
+
+class CreditNoteAnalyticsPendingRead(BaseModel):
+    id: int
+    requester_full_name: str
+    department_name: str
+    position_title: str
+    amount: Decimal
+    currency: Currency
+    created_at: datetime
+    age_days: int
+
+
+class CreditNoteAnalyticsRead(BaseModel):
+    summary: CreditNoteAnalyticsSummaryRead
+    amounts: list[CreditNoteAnalyticsAmountRead]
+    departments: list[DepartmentRead]
+    by_department: list[CreditNoteAnalyticsGroupRead]
+    by_position: list[CreditNoteAnalyticsGroupRead]
+    by_requester: list[CreditNoteAnalyticsRequesterRead]
+    trend: list[CreditNoteAnalyticsTrendRead]
+    oldest_pending: list[CreditNoteAnalyticsPendingRead]

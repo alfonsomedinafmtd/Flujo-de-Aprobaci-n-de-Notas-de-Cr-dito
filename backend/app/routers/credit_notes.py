@@ -1,3 +1,5 @@
+from datetime import date
+
 from fastapi import APIRouter, Query, status
 from sqlalchemy import select
 
@@ -8,12 +10,14 @@ from app.presenters import present_credit_note
 from app.schemas import (
     CatalogItemRead,
     CreditNoteCatalogRead,
+    CreditNoteAnalyticsRead,
     CreditNoteCreate,
     CreditNoteDecision,
     CreditNoteListRead,
     CreditNoteRead,
     CreditNoteSummaryRead,
 )
+from app.services.analytics import get_credit_note_analytics
 from app.services.credit_notes import (
     create_credit_note,
     decide_credit_note,
@@ -72,6 +76,25 @@ def note_summary(db: DbSession, user: CurrentUser) -> CreditNoteSummaryRead:
         pending=summary[CreditNoteStatus.PENDING],
         approved=summary[CreditNoteStatus.APPROVED],
         rejected=summary[CreditNoteStatus.REJECTED],
+    )
+
+
+@router.get("/analytics", response_model=CreditNoteAnalyticsRead)
+def note_analytics(
+    db: DbSession,
+    user: CurrentUser,
+    date_from: date | None = Query(default=None),
+    date_to: date | None = Query(default=None),
+    department_id: int | None = Query(default=None, gt=0),
+    note_status: CreditNoteStatus | None = Query(default=None, alias="status"),
+) -> CreditNoteAnalyticsRead:
+    return get_credit_note_analytics(
+        db,
+        user,
+        date_from=date_from,
+        date_to=date_to,
+        department_id=department_id,
+        status_filter=note_status,
     )
 
 

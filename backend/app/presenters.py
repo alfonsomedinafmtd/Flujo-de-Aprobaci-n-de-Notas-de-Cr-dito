@@ -79,6 +79,7 @@ def present_credit_note(note: CreditNote) -> CreditNoteRead:
         creator_full_name=employee_full_name(note.creator.employee),
         creator_internal_email=note.creator.employee.internal_email,
         creator_role=note.creator.role,
+        requester_position_title=note.requester_position_title,
         store=CatalogItemRead(id=note.store.id, name=note.store.name),
         company=CatalogItemRead(id=note.company.id, name=note.company.name),
         created_at=note.created_at,

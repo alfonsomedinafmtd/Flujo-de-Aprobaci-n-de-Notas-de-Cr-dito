@@ -341,6 +341,26 @@ $rejectedNote = Invoke-RestMethod `
 
 Las decisiones son terminales: una nota aprobada o rechazada no puede volver a procesarse.
 
+### Consultar analítica administrativa
+
+`GET /credit-notes/analytics` está disponible exclusivamente para el rol Administrador. Jefes y colaboradores reciben `403`, incluso si intentan llamar la ruta directamente.
+
+Filtros opcionales:
+
+- `date_from` y `date_to` en formato `YYYY-MM-DD`.
+- `department_id` para un área específica.
+- `status` con `PENDING`, `APPROVED` o `REJECTED`.
+
+La respuesta incluye contadores, tasas sobre solicitudes resueltas, tiempo promedio de resolución, montos separados por moneda, resultados por departamento, cargo y solicitante, tendencia mensual y hasta ocho solicitudes pendientes antiguas. El cargo corresponde a la instantánea conservada cuando se creó la nota.
+
+Ejemplo:
+
+```powershell
+$analytics = Invoke-RestMethod `
+    -Uri "$baseUrl/credit-notes/analytics?status=PENDING" `
+    -WebSession $session
+```
+
 ## Referencia rápida de endpoints
 
 | Método | Ruta | Sesión | CSRF | Uso principal |
@@ -358,6 +378,7 @@ Las decisiones son terminales: una nota aprobada o rechazada no puede volver a p
 | `GET` | `/credit-notes/catalog` | Sí | No | Tiendas y compañías activas |
 | `GET` | `/credit-notes` | Sí | No | Listar, filtrar y paginar |
 | `GET` | `/credit-notes/summary` | Sí | No | Contadores por estado |
+| `GET` | `/credit-notes/analytics` | Admin | No | Indicadores y agrupaciones administrativas |
 | `POST` | `/credit-notes` | Sí | Sí | Crear una solicitud |
 | `GET` | `/credit-notes/{note_id}` | Sí | No | Consultar detalle e historial |
 | `POST` | `/credit-notes/{note_id}/approve` | Sí | Sí | Aprobar una solicitud |

@@ -64,6 +64,16 @@ En la base solo se persistirá el hash del identificador de sesión. El cierre d
 - El actor que decide debe ser diferente del creador y pertenecer a un rol distinto.
 - El rechazo requiere comentario; la aprobación permite uno opcional.
 
+## ADR-007: analítica administrativa con contexto histórico
+
+**Estado:** aceptada.
+
+Se incorpora una vista analítica exclusiva para `ADMIN`. El backend aplica los filtros y devuelve indicadores, montos por moneda, agrupaciones por departamento, cargo y solicitante, tendencia mensual y solicitudes pendientes antiguas. No se descargan todas las notas al navegador para calcular el reporte y una llamada directa de jefe o colaborador recibe `403`.
+
+Los importes en USD y VES se presentan por separado porque sumarlos produciría un indicador financiero incorrecto sin una tasa de conversión definida. Además, cada nota conserva `requester_position_title` como instantánea del cargo al momento de creación. Consultar únicamente el cargo actual del colaborador modificaría retrospectivamente los reportes cuando ocurra un cambio organizacional.
+
+Para el volumen ficticio de la prueba, las agrupaciones se calculan en el servicio backend después de aplicar los filtros en base de datos. En producción, con mayor volumen, se evaluarían agregaciones SQL, índices adicionales, vistas materializadas o un almacén analítico.
+
 ## Limitaciones conocidas iniciales
 
 - No se conservará todavía historial de cambios organizacionales de cargo o departamento.

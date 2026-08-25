@@ -313,6 +313,7 @@ def seed_database() -> None:
                 reason=note_seed.reason,
                 requesting_department=departments[note_seed.department_code],
                 creator=creator,
+                requester_position_title=creator.employee.position.title,
                 store_id=note_seed.store_id,
                 company_id=note_seed.company_id,
                 status=note_seed.status,
@@ -371,4 +372,3 @@ def seed_database() -> None:
 
 if __name__ == "__main__":
     seed_database()
-

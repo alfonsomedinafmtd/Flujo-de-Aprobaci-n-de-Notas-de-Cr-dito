@@ -86,6 +86,7 @@ export interface CreditNote {
   creator_full_name: string
   creator_internal_email: string
   creator_role: UserRole
+  requester_position_title: string
   store: CatalogItem
   company: CatalogItem
   created_at: string
@@ -110,4 +111,64 @@ export interface CreditNoteSummary {
 export interface CreditNoteCatalog {
   stores: CatalogItem[]
   companies: CatalogItem[]
+}
+
+export interface CreditNoteAnalyticsCounts {
+  total: number
+  pending: number
+  approved: number
+  rejected: number
+}
+
+export interface CreditNoteAnalyticsSummary extends CreditNoteAnalyticsCounts {
+  approval_rate: number
+  rejection_rate: number
+  average_resolution_hours: number | null
+}
+
+export interface CreditNoteAnalyticsAmount {
+  currency: Currency
+  total_amount: string
+  average_amount: string
+}
+
+export interface CreditNoteAnalyticsGroup extends CreditNoteAnalyticsCounts {
+  key: string
+  label: string
+  amounts: CreditNoteAnalyticsAmount[]
+}
+
+export interface CreditNoteAnalyticsRequester extends CreditNoteAnalyticsCounts {
+  user_id: number
+  username: string
+  full_name: string
+  department_name: string
+  position_title: string
+  amounts: CreditNoteAnalyticsAmount[]
+}
+
+export interface CreditNoteAnalyticsTrend extends CreditNoteAnalyticsCounts {
+  period: string
+}
+
+export interface CreditNoteAnalyticsPending {
+  id: number
+  requester_full_name: string
+  department_name: string
+  position_title: string
+  amount: string
+  currency: Currency
+  created_at: string
+  age_days: number
+}
+
+export interface CreditNoteAnalytics {
+  summary: CreditNoteAnalyticsSummary
+  amounts: CreditNoteAnalyticsAmount[]
+  departments: Department[]
+  by_department: CreditNoteAnalyticsGroup[]
+  by_position: CreditNoteAnalyticsGroup[]
+  by_requester: CreditNoteAnalyticsRequester[]
+  trend: CreditNoteAnalyticsTrend[]
+  oldest_pending: CreditNoteAnalyticsPending[]
 }

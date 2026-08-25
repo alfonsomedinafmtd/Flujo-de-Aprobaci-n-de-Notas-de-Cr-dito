@@ -9,7 +9,9 @@ export function Layout() {
   if (!user) return null
 
   const navigation = [
-    { to: '/', label: 'Inicio', end: true },
+    ...(user.role === 'ADMIN'
+      ? [{ to: '/analytics', label: 'Analítica', end: true }]
+      : [{ to: '/', label: 'Inicio', end: true }]),
     { to: '/organization', label: 'Organización', end: true },
     { to: '/positions', label: 'Cargos y funciones', end: true },
     { to: '/credit-notes', label: 'Notas de crédito', end: true },

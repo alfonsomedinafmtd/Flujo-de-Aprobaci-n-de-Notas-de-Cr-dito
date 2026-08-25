@@ -8,6 +8,10 @@ export function canDecideCreditNote(role: UserRole): boolean {
   return role === 'ADMIN' || role === 'DEPARTMENT_HEAD'
 }
 
+export function canViewAnalytics(role: UserRole): boolean {
+  return role === 'ADMIN'
+}
+
 export function roleLabel(role: UserRole): string {
   const labels: Record<UserRole, string> = {
     ADMIN: 'Administrador',
@@ -16,4 +20,3 @@ export function roleLabel(role: UserRole): string {
   }
   return labels[role]
 }
-

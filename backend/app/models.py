@@ -188,6 +188,7 @@ class CreditNote(Base):
     reason: Mapped[str] = mapped_column(Text)
     requesting_department_id: Mapped[int] = mapped_column(ForeignKey("departments.id"), index=True)
     created_by_user_id: Mapped[int] = mapped_column(ForeignKey("user_accounts.id"), index=True)
+    requester_position_title: Mapped[str] = mapped_column(String(100), index=True)
     store_id: Mapped[int] = mapped_column(ForeignKey("stores.id"), index=True)
     company_id: Mapped[int] = mapped_column(ForeignKey("companies.id"), index=True)
     status: Mapped[CreditNoteStatus] = mapped_column(

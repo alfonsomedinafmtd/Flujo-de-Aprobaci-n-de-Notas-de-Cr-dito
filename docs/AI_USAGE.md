@@ -94,6 +94,16 @@ Los textos siguientes registran las solicitudes principales realizadas durante e
 
 **Resultado verificable:** `LoginPage.tsx` contiene el acceso corporativo; `Layout.tsx` y `DashboardPage.tsx` exponen la solicitud dentro del portal solo a colaboradores.
 
+### P-09 — Analítica administrativa de notas de crédito
+
+**Tipo:** prompt consolidado.
+
+> Incorpora como primera pestaña del Administrador un dashboard de notas de crédito por área, cargo y persona. Incluye indicadores, filtros y datos útiles para Planificación Financiera. El acceso debe restringirse en el frontend y en el backend, los montos de monedas distintas no deben combinarse y el reporte debe conservar el contexto histórico del solicitante. Agrega pruebas, migración, documentación y una presentación adaptable a escritorio y móvil.
+
+**Decisión que motivó:** ampliar el valor operativo del portal mediante una vista consolidada sin alterar el flujo principal ni exponer información transversal a otros roles.
+
+**Resultado verificable:** ruta `/analytics`, endpoint administrativo, agrupaciones por área/cargo/persona, tendencia, pendientes antiguas, cargo histórico, filtros y pruebas de autorización.
+
 ## 3. Sugerencias aceptadas, modificadas y rechazadas
 
 | Clasificación | Propuesta de la IA | Decisión final y motivo | Evidencia |
@@ -104,10 +114,12 @@ Los textos siguientes registran las solicitudes principales realizadas durante e
 | Aceptada | Sesión opaca revocable con cookie `HttpOnly` y CSRF. | Reduce exposición del identificador, permite revocación y protege mutaciones autenticadas. | `backend/app/security.py`, router de autenticación, ADR-005 |
 | Aceptada | Guardar transición y evento de auditoría en una transacción. | Impide que el estado cambie sin dejar evidencia del actor y la fecha. | `backend/app/services/credit_notes.py` |
 | Aceptada | Usar versión esperada para decidir una nota. | La primera decisión gana y una vista obsoleta recibe `409`, sin duplicar eventos. | campo `version` y prueba de versión obsoleta |
+| Aceptada | Agregar analítica consolidada exclusiva para administradores. | Aporta supervisión global y demuestra agregación de datos sin ampliar el alcance de otros roles. | `/credit-notes/analytics`, `AnalyticsPage.tsx` y pruebas |
 | Modificada | Usar PostgreSQL desde el inicio. | Se cambió a SQLite porque el PDF lo permite y hace reproducible la evaluación local; SQLAlchemy y Alembic conservan una ruta de migración. | ADR-004 y archivos `.env.example` |
 | Modificada | Copiar literalmente el dataset opcional. | Se reutilizaron catálogos y notas, pero se añadieron creador, departamento y actor porque los requisitos principales exigen auditoría y no autoaprobación. | ADR-002 y `backend/app/seed.py` |
 | Modificada | Permitir que el cliente seleccione el departamento solicitante. | El departamento se deriva del usuario autenticado para impedir falsificación del alcance. | `CreditNoteCreate`, servicio y pruebas de payload |
 | Modificada | Mostrar la solicitud en la portada pública. | La portada queda como acceso corporativo; la solicitud está dentro del portal, después de autenticarse, y solo aparece a colaboradores. | `LoginPage.tsx`, `Layout.tsx`, `DashboardPage.tsx` y backend |
+| Modificada | Agrupar por el cargo actual del colaborador y sumar todos los montos. | Se conserva el cargo al crear la nota y los montos se separan por moneda para evitar cambios retroactivos e indicadores financieros inválidos. | migración `c31f8b42d9a7`, modelo y servicio analítico |
 | Rechazada | Ocultar botones como única autorización. | Un cliente modificado podría llamar la API; todas las reglas se vuelven a comprobar en el servidor. | pruebas de autorización directa a endpoints |
 | Rechazada | Login ficticio mediante selector de rol. | No demostraría identidad ni autorización real; se implementaron usuarios, hashes y sesiones. | modelos, seed y endpoints `/auth` |
 | Rechazada | Guardar JWT o sesión en `localStorage`. | Aumenta la exposición ante XSS y complica la revocación inmediata para este alcance. | ADR-005 |
@@ -115,6 +127,7 @@ Los textos siguientes registran las solicitudes principales realizadas durante e
 | Rechazada | Desactivar TLS o usar un mirror para evadir el `403` de npm. | El error provenía de una política corporativa y debía resolverse por el canal autorizado. | lockfile generado después de habilitar el registro oficial |
 | Rechazada | Fabricar manualmente `package-lock.json`. | Un lockfile solo es evidencia válida cuando npm resuelve realmente las dependencias. | `frontend/package-lock.json` |
 | Rechazada | Usar un parser como sustituto de las validaciones del frontend. | La sintaxis aislada no reemplaza TypeScript, Vitest ni el build real. | `scripts/verify.ps1` |
+| Rechazada | Descargar todas las notas y calcular la analítica exclusivamente en React. | Expondría información innecesaria y convertiría el cliente en autoridad del reporte; los filtros y cálculos se ejecutan en el backend protegido. | servicio `analytics.py` y endpoint con `ADMIN` |
 
 ## 4. Errores o malas prácticas de IA detectados y corregidos
 
@@ -128,7 +141,7 @@ Los textos siguientes registran las solicitudes principales realizadas durante e
 
 **Corrección:** se reemplazaron ambas definiciones por `Column`, con claves primarias y foráneas con borrado en cascada.
 
-**Evidencia:** `backend/app/models.py`, creación del esquema y 27 pruebas backend aprobadas.
+**Evidencia:** `backend/app/models.py`, creación del esquema y 29 pruebas backend aprobadas.
 
 ### E-02 — Conversión incorrecta de un resultado SQLAlchemy
 
@@ -177,10 +190,10 @@ Ante una modificación en vivo, el procedimiento será: localizar la regla, expl
 
 ## 7. Evidencia final
 
-- 27 pruebas automatizadas del backend aprobadas.
+- 29 pruebas automatizadas del backend aprobadas.
 - Modelos y migración Alembic sincronizados.
 - Typecheck de TypeScript aprobado.
-- 2 pruebas Vitest aprobadas.
+- 3 pruebas Vitest aprobadas.
 - Build de producción Vite aprobado.
 - Auditoría de entrega aprobada.
 

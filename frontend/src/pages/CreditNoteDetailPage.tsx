@@ -69,6 +69,7 @@ export function CreditNoteDetailPage() {
         </article>
         <article className="detail-card"><span>Departamento</span><strong>{note.requesting_department.name}</strong></article>
         <article className="detail-card"><span>Solicitante</span><strong>{note.creator_full_name}</strong><small className="cell-detail">{note.creator_internal_email} · {roleLabel(note.creator_role)}</small></article>
+        <article className="detail-card"><span>Cargo al solicitar</span><strong>{note.requester_position_title}</strong></article>
         <article className="detail-card"><span>Última actualización</span><strong>{formatDate(note.updated_at)}</strong></article>
         <article className="detail-card"><span>Tienda</span><strong>{note.store.name}</strong></article>
         <article className="detail-card"><span>Compañía</span><strong>{note.company.name}</strong></article>

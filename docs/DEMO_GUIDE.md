@@ -61,9 +61,11 @@ El script solicita de forma segura las credenciales de un colaborador y de un je
 ### 3. Administrador
 
 1. Ingresar como administrador.
-2. Mostrar que el dashboard y el listado tienen alcance global.
-3. Recorrer todos los departamentos y comprobar que el detalle incluye país, fecha de ingreso, correo ficticio, usuario, rol del portal, cargo y estado.
-4. Explicar que el administrador puede decidir globalmente, pero no crear solicitudes ni autoaprobar.
+2. Mostrar que la primera vista es `Analítica` y que no aparece para los otros roles.
+3. Recorrer indicadores, montos separados por moneda, áreas, cargos, solicitantes y pendientes antiguas.
+4. Aplicar filtros por fecha, departamento y estado; abrir una solicitud desde la tabla de atención requerida.
+5. Mostrar que el listado y el directorio tienen alcance global, incluido país, fecha de ingreso, correo ficticio, usuario, rol, cargo y estado.
+6. Explicar que el administrador puede decidir globalmente, pero no crear solicitudes ni autoaprobar.
 
 ## Evidencias técnicas para mencionar
 
@@ -75,6 +77,7 @@ El script solicita de forma segura las credenciales de un colaborador y de un je
 - La transición y su evento de auditoría se confirman en una misma transacción.
 - Los montos utilizan decimal de precisión fija.
 - Las migraciones Alembic y el seed permiten reproducir la base.
+- La analítica exige `ADMIN` en la API, separa monedas y conserva el cargo histórico del solicitante.
 
 ## Validación previa a presentar
 

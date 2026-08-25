@@ -114,6 +114,7 @@ def create_credit_note(
         reason=payload.reason,
         requesting_department_id=_department_id(user),
         created_by_user_id=user.id,
+        requester_position_title=user.employee.position.title,
         store_id=payload.store_id,
         company_id=payload.company_id,
         status=CreditNoteStatus.PENDING,
