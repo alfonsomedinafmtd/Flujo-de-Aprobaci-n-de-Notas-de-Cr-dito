@@ -10,13 +10,13 @@ Este documento cumple la sección 5 del enunciado: registra los prompts principa
 - **Responsabilidad:** la selección final, revisión y defensa del código corresponden al candidato.
 - **Privacidad:** no se incluyeron contraseñas, cookies, tokens ni datos productivos en los prompts.
 
-Los textos siguientes son versiones profesionales normalizadas a partir de las solicitudes realizadas durante el proyecto. Conservan su propósito y las decisiones que motivaron, pero no se presentan como transcripciones literales. Cuando una entrada reúne varios mensajes sucesivos, se identifica como **consolidada**.
+Los textos siguientes registran las solicitudes principales realizadas durante el proyecto. Conservan su propósito y las decisiones que motivaron; cuando una entrada reúne varios mensajes sucesivos, se identifica como **consolidada**.
 
 ## 2. Prompts principales utilizados
 
 ### P-01 — Análisis integral del enunciado
 
-**Tipo:** prompt profesional normalizado.
+**Tipo:** prompt individual.
 
 > Analiza íntegramente el PDF de la prueba técnica y los archivos de datos adjuntos. Identifica los requisitos obligatorios, las restricciones, los entregables y los criterios de evaluación. Distingue expresamente las instrucciones del enunciado de las decisiones de implementación y de los datos opcionales. Antes de desarrollar, entrega una matriz de trazabilidad que relacione cada requisito con la solución propuesta y su evidencia verificable.
 
@@ -26,7 +26,7 @@ Los textos siguientes son versiones profesionales normalizadas a partir de las s
 
 ### P-02 — Definición del proceso de notas de crédito
 
-**Tipo:** prompt profesional normalizado.
+**Tipo:** prompt individual.
 
 > Desarrolla la opción 2, correspondiente al flujo de aprobación de notas de crédito. Define actores, permisos, datos de entrada, estados, transiciones permitidas, reglas de segregación de funciones y evidencia de auditoría. La propuesta debe impedir la autoaprobación, restringir las decisiones al alcance autorizado y conservar quién ejecutó cada acción y cuándo lo hizo.
 
@@ -36,7 +36,7 @@ Los textos siguientes son versiones profesionales normalizadas a partir de las s
 
 ### P-03 — Arquitectura e implementación completa
 
-**Tipo:** prompt profesional consolidado.
+**Tipo:** prompt consolidado.
 
 > Diseña e implementa una solución web completa para el proceso seleccionado. Utiliza un modelo relacional normalizado, una API con reglas de negocio en el backend y una interfaz construida con un framework moderno. Incluye autenticación real, autorización por rol y departamento, creación y decisión de solicitudes, auditoría visible, migraciones, carga inicial reproducible, pruebas automatizadas y documentación técnica. Prioriza una arquitectura mantenible y proporcional al alcance de la prueba.
 
@@ -46,7 +46,7 @@ Los textos siguientes son versiones profesionales normalizadas a partir de las s
 
 ### P-04 — Revisión de seguridad y autorización
 
-**Tipo:** prompt profesional consolidado.
+**Tipo:** prompt consolidado.
 
 > Audita la solución con enfoque de seguridad. Verifica que ninguna regla de autorización dependa exclusivamente del frontend y que el backend derive la identidad, el rol y el departamento desde la sesión autenticada. Cubre acceso fuera de alcance, falsificación de campos, autoaprobación, CSRF, expiración y revocación de sesiones, y decisiones concurrentes. Para cada control, agrega una prueba que demuestre tanto el caso permitido como el rechazo sin efectos secundarios.
 
@@ -56,7 +56,7 @@ Los textos siguientes son versiones profesionales normalizadas a partir de las s
 
 ### P-05 — Diagnóstico del bloqueo corporativo de npm
 
-**Tipo:** prompt profesional normalizado.
+**Tipo:** prompt individual.
 
 > Diagnostica el error `403 Forbidden` devuelto por `npm ping` contra `https://registry.npmjs.org/`. Determina si Node.js y npm están correctamente instalados, diferencia un problema local de una restricción corporativa y redacta la información necesaria para solicitar la habilitación oficial. No desactives TLS, no modifiques controles de seguridad y no utilices registros alternativos para eludir la política. Mientras se resuelve el acceso, identifica tareas verificables que puedan continuar sin instalar dependencias nuevas.
 
@@ -66,7 +66,7 @@ Los textos siguientes son versiones profesionales normalizadas a partir de las s
 
 ### P-06 — Análisis de brechas contra el PDF
 
-**Tipo:** prompt profesional normalizado.
+**Tipo:** prompt individual.
 
 > Compara el estado actual del repositorio con cada requisito del PDF. Clasifica las brechas por prioridad —obligatoria, alta o recomendada— e indica para cada una el archivo afectado, el cambio necesario y la forma de validarlo. No agregues funcionalidades ajenas al alcance como sustituto de requisitos pendientes. Actualiza la trazabilidad y el checklist únicamente cuando exista evidencia ejecutable.
 
@@ -76,7 +76,7 @@ Los textos siguientes son versiones profesionales normalizadas a partir de las s
 
 ### P-07 — Enriquecimiento de información y trazabilidad visible
 
-**Tipo:** prompt profesional normalizado.
+**Tipo:** prompt individual.
 
 > Mejora las vistas del directorio de colaboradores y de notas de crédito con información útil para operación y auditoría. En las solicitudes incluye como mínimo quién la creó, usuario, departamento, estado y fechas; en el historial muestra actor, transición y comentario. En el directorio agrega cargo, seniority, correo, país, fecha de ingreso, estado y rol cuando corresponda. Conserva los filtros de alcance del backend y evita exponer información fuera de los permisos de la sesión.
 
@@ -86,7 +86,7 @@ Los textos siguientes son versiones profesionales normalizadas a partir de las s
 
 ### P-08 — Experiencia corporativa y ubicación de la solicitud
 
-**Tipo:** prompt profesional consolidado.
+**Tipo:** prompt consolidado.
 
 > Ajusta la experiencia visual a la identidad corporativa suministrada. La portada debe identificar a Planificación Financiera, utilizar un mensaje institucional y funcionar únicamente como acceso al portal. Retira de la portada pública cualquier llamado directo para solicitar notas de crédito. Mantén la creación dentro del portal autenticado, visible solo para el rol Colaborador, y conserva en el backend todas las validaciones de identidad, rol y departamento.
 
