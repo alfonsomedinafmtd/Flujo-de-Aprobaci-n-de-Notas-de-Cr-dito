@@ -14,6 +14,7 @@ Usar esta lista antes de compartir el repositorio o generar un archivo ZIP.
 - [x] Auditoría con actor, transición, comentario y fecha.
 - [x] Filtros, paginación y resumen de estados según el alcance autenticado.
 - [x] Analítica por área, cargo y solicitante visible únicamente para Administrador.
+- [x] Las cuatro áreas activas permanecen visibles en analítica; las que no tienen solicitudes muestran cero.
 
 ## Datos y backend
 
@@ -60,6 +61,16 @@ Verificación integral ejecutada desde la raíz:
 - [x] Decisiones técnicas, permisos, trazabilidad y uso de IA documentados.
 - [x] Revisar nuevamente `git status` antes de entregar.
 - [x] Confirmar que ningún secreto nuevo fue agregado durante la validación final.
+- [x] `pip check` confirma la integridad de las dependencias Python instaladas.
+- [x] `pip-audit` no reporta vulnerabilidades conocidas en las dependencias Python fijadas.
+- [x] Bandit no reporta hallazgos estáticos en `backend/app`.
+- [x] `npm audit` no reporta vulnerabilidades conocidas.
+
+Auditoría reproducible —requiere acceso a los registros oficiales—:
+
+```powershell
+.\scripts\security-audit.ps1
+```
 
 ## Uso de Inteligencia Artificial
 

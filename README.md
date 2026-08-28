@@ -73,6 +73,14 @@ Para revisar el estado de entrega sin modificar el repositorio:
 .\scripts\delivery-audit.ps1
 ```
 
+Para ejecutar la revisión reproducible de seguridad —integridad y vulnerabilidades
+de dependencias, análisis estático y patrones de secretos— se requiere conexión a
+los registros oficiales:
+
+```powershell
+.\scripts\security-audit.ps1
+```
+
 ## Ejecutar el frontend
 
 Requisitos: Node.js 24 LTS o una versión compatible con Vite 8.
@@ -163,4 +171,4 @@ Con la API iniciada, el flujo completo también puede demostrarse desde PowerShe
 
 La solución incluye autenticación por sesión, protección CSRF, consultas de la estructura organizacional, migraciones, seed, el flujo completo de notas de crédito, analítica exclusiva para administradores y una interfaz React adaptada a los permisos de cada rol.
 
-Las 29 pruebas automatizadas del backend cubren autenticación, aislamiento por departamento, segregación de funciones, transiciones de estado, auditoría, analítica administrativa, filtros, datos visibles, validaciones y configuración segura. El frontend superó typecheck, 3 pruebas Vitest y el build de producción; la auditoría npm reportó cero vulnerabilidades.
+Las 29 pruebas automatizadas del backend cubren autenticación, aislamiento por departamento, segregación de funciones, transiciones de estado, auditoría, analítica administrativa, filtros, datos visibles, validaciones y configuración segura. El frontend superó typecheck, 3 pruebas Vitest y el build de producción. La auditoría final no encontró vulnerabilidades conocidas en Python o npm, hallazgos estáticos de Bandit ni patrones de secretos en archivos versionados.

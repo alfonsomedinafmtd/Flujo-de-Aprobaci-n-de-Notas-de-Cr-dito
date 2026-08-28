@@ -214,7 +214,7 @@ No sin optimización. Los filtros ya se aplican en base de datos, pero las agrup
 
 ### ¿Qué está automatizado?
 
-El backend tiene 29 pruebas aprobadas. Cubren login y atributos de cookie, errores genéricos, cuentas inactivas, expiración y revocación de sesiones, rotación CSRF, permisos y aislamiento por departamento, creación y decisiones, datos visibles, normalización de entradas, catálogos, precisión monetaria, no autoaprobación, auditoría, versión obsoleta, filtros, paginación, resumen, analítica exclusiva, monedas separadas, cargo histórico, configuración segura y seed idempotente. `alembic check` confirma que modelos y migraciones están sincronizados.
+El backend tiene 29 pruebas aprobadas. Cubren login y atributos de cookie, errores genéricos, cuentas inactivas, expiración y revocación de sesiones, rotación CSRF, permisos y aislamiento por departamento, creación y decisiones, datos visibles, normalización de entradas, catálogos, precisión monetaria, no autoaprobación, auditoría, versión obsoleta, filtros, paginación, resumen, analítica exclusiva, monedas separadas, cargo histórico, configuración segura y seed idempotente. `alembic check` confirma que modelos y migraciones están sincronizados. La revisión final añade `pip check`, `pip-audit`, Bandit, `npm audit` y búsqueda de patrones sensibles mediante `scripts/security-audit.ps1`.
 
 ### ¿Qué falta verificar?
 
