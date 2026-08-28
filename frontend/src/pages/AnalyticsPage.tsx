@@ -169,33 +169,34 @@ export function AnalyticsPage() {
             ))}
           </section>
 
+          <section className="analytics-panel" aria-labelledby="department-analytics-title">
+            <div className="section-heading">
+              <span className="eyebrow">Comparativo por área</span>
+              <h2 id="department-analytics-title">Solicitudes por departamento</h2>
+              <p>Las áreas activas sin solicitudes para los filtros seleccionados se muestran en cero.</p>
+            </div>
+            <div className="department-bars">
+              {analytics.by_department.map((group) => (
+                <article className="department-bar-row" key={group.key}>
+                  <div className="bar-copy">
+                    <strong>{group.label}</strong>
+                    <small>{formatAmounts(group.amounts)}</small>
+                  </div>
+                  <div className="bar-visual">
+                    <div className="bar-track"><span style={{ width: `${(group.total * 100) / maxDepartmentTotal}%` }} /></div>
+                    <strong>{group.total}</strong>
+                  </div>
+                  <StatusDistribution group={group} />
+                  <small className="distribution-caption">{group.approved} aprobadas · {group.pending} pendientes · {group.rejected} rechazadas</small>
+                </article>
+              ))}
+            </div>
+          </section>
+
           {analytics.summary.total === 0 ? (
-            <EmptyState title="Sin datos para los filtros" detail="Ajusta el período, área o estado seleccionado." />
+            <EmptyState title="Sin solicitudes para los filtros" detail="Las áreas permanecen visibles para diferenciar un resultado en cero de un departamento ausente." />
           ) : (
             <>
-              <section className="analytics-panel" aria-labelledby="department-analytics-title">
-                <div className="section-heading">
-                  <span className="eyebrow">Comparativo por área</span>
-                  <h2 id="department-analytics-title">Solicitudes por departamento</h2>
-                </div>
-                <div className="department-bars">
-                  {analytics.by_department.map((group) => (
-                    <article className="department-bar-row" key={group.key}>
-                      <div className="bar-copy">
-                        <strong>{group.label}</strong>
-                        <small>{formatAmounts(group.amounts)}</small>
-                      </div>
-                      <div className="bar-visual">
-                        <div className="bar-track"><span style={{ width: `${(group.total * 100) / maxDepartmentTotal}%` }} /></div>
-                        <strong>{group.total}</strong>
-                      </div>
-                      <StatusDistribution group={group} />
-                      <small className="distribution-caption">{group.approved} aprobadas · {group.pending} pendientes · {group.rejected} rechazadas</small>
-                    </article>
-                  ))}
-                </div>
-              </section>
-
               <section className="analytics-two-column">
                 <div className="analytics-panel">
                   <div className="section-heading"><span className="eyebrow">Evolución</span><h2>Tendencia mensual</h2></div>

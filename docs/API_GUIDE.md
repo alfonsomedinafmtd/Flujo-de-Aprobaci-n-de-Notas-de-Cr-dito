@@ -351,7 +351,7 @@ Filtros opcionales:
 - `department_id` para un área específica.
 - `status` con `PENDING`, `APPROVED` o `REJECTED`.
 
-La respuesta incluye contadores, tasas sobre solicitudes resueltas, tiempo promedio de resolución, montos separados por moneda, resultados por departamento, cargo y solicitante, tendencia mensual y hasta ocho solicitudes pendientes antiguas. El cargo corresponde a la instantánea conservada cuando se creó la nota.
+La respuesta incluye contadores, tasas sobre solicitudes resueltas, tiempo promedio de resolución, montos separados por moneda, resultados por departamento, cargo y solicitante, tendencia mensual y hasta ocho solicitudes pendientes antiguas. La agrupación por departamento conserva todas las áreas activas y devuelve métricas en cero cuando no tienen solicitudes para los filtros aplicados; así se distingue un área sin actividad de una entidad ausente. El cargo corresponde a la instantánea conservada cuando se creó la nota.
 
 Ejemplo:
 

@@ -194,6 +194,10 @@ No. Es una carga reproducible para demostración y pruebas. Si detecta departame
 
 Consolida actividad de todos los departamentos y personas. Esa visibilidad excede el alcance de un jefe o colaborador, por lo que la API exige `ADMIN`; ocultar la pestaña en React es únicamente una mejora de experiencia.
 
+### ¿Por qué aparecen departamentos con cero solicitudes?
+
+El directorio organizacional contiene cuatro departamentos activos, pero el dataset histórico de notas solo registra actividad para Cuentas por Cobrar y Cuentas por Pagar. La analítica inicializa todas las áreas activas con métricas en cero y luego acumula las notas que cumplen los filtros. Así queda claro que Planificación Financiera y Tesorería están soportadas por el sistema y simplemente no tienen actividad para ese conjunto de datos; no se inventan transacciones para completar el gráfico.
+
 ### ¿Por qué no sumas USD y VES en un único monto?
 
 Sin una tasa de conversión, fecha de valoración y fuente cambiaria definidas, el total combinado sería engañoso. La API mantiene cada moneda separada y calcula su total y promedio de manera independiente.

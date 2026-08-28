@@ -62,7 +62,7 @@ El script solicita de forma segura las credenciales de un colaborador y de un je
 
 1. Ingresar como administrador.
 2. Mostrar que la primera vista es `Analítica` y que no aparece para los otros roles.
-3. Recorrer indicadores, montos separados por moneda, áreas, cargos, solicitantes y pendientes antiguas.
+3. Recorrer indicadores, montos separados por moneda, áreas, cargos, solicitantes y pendientes antiguas. Resaltar que las cuatro áreas activas permanecen visibles y que Planificación Financiera y Tesorería muestran cero cuando no existen notas históricas para los filtros actuales.
 4. Aplicar filtros por fecha, departamento y estado; abrir una solicitud desde la tabla de atención requerida.
 5. Mostrar que el listado y el directorio tienen alcance global, incluido país, fecha de ingreso, correo ficticio, usuario, rol, cargo y estado.
 6. Explicar que el administrador puede decidir globalmente, pero no crear solicitudes ni autoaprobar.

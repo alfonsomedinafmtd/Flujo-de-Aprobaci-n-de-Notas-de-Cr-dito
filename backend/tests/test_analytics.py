@@ -73,7 +73,10 @@ def test_admin_analytics_aggregates_filters_and_preserves_position_snapshot(test
     assert amounts["USD"]["total_amount"] == "120.50"
     assert amounts["USD"]["average_amount"] == "120.50"
     assert amounts["VES"]["total_amount"] == "350.00"
-    assert analytics["by_department"][0]["label"] == "Departamento A"
+    departments = {item["label"]: item for item in analytics["by_department"]}
+    assert departments["Departamento A"]["total"] == 2
+    assert departments["Departamento B"]["total"] == 0
+    assert departments["Departamento B"]["amounts"] == []
     assert analytics["by_position"][0]["label"] == "Analista"
     assert analytics["by_requester"][0]["username"] == "collab.a"
     assert analytics["by_requester"][0]["position_title"] == "Analista"
@@ -90,6 +93,9 @@ def test_admin_analytics_aggregates_filters_and_preserves_position_snapshot(test
     assert empty.status_code == 200
     assert empty.json()["summary"]["total"] == 0
     assert empty.json()["departments"]
+    assert {
+        item["label"]: item["total"] for item in empty.json()["by_department"]
+    } == {"Departamento A": 0, "Departamento B": 0}
 
     invalid_range = client.get(
         "/api/credit-notes/analytics"

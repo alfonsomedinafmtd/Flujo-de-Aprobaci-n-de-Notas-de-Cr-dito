@@ -123,7 +123,11 @@ def get_credit_note_analytics(
     )
 
     summary = _Bucket()
-    department_buckets: dict[tuple[int, str], _Bucket] = defaultdict(_Bucket)
+    # Keep every active department visible even when the current filters return
+    # no notes for it. This distinguishes a zero value from a missing area.
+    department_buckets: dict[tuple[int, str], _Bucket] = {
+        (department.id, department.name): _Bucket() for department in departments
+    }
     position_buckets: dict[str, _Bucket] = defaultdict(_Bucket)
     requester_buckets: dict[int, _Bucket] = defaultdict(_Bucket)
     requester_metadata: dict[int, tuple[str, str, str, str]] = {}
@@ -132,7 +136,8 @@ def get_credit_note_analytics(
 
     for note in notes:
         summary.add(note)
-        department_buckets[(note.requesting_department.id, note.requesting_department.name)].add(note)
+        department_key = (note.requesting_department.id, note.requesting_department.name)
+        department_buckets.setdefault(department_key, _Bucket()).add(note)
         position_buckets[note.requester_position_title].add(note)
         requester_buckets[note.creator.id].add(note)
         requester_metadata[note.creator.id] = (
